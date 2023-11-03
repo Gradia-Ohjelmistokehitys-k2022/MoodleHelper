@@ -2,15 +2,15 @@
 
 namespace SyntaxGenerator
 {
-    public class SyntaxGen
+    internal class SyntaxGen
     {
-        public SyntaxGen()
+        internal SyntaxGen()
         {
             
         }
 
         /// <summary>
-        /// Creates the syntax for a Numerical question type
+        /// Creates the syntax for a NUMERICAL question type
         /// </summary>
         /// <param name="correctAnswer">The correct answer</param>
         /// <param name="margin">The margin of error</param>
