@@ -9,16 +9,28 @@ namespace SyntaxGenerator
             
         }
 
-        
-        private static string CreateNumerical(decimal correctAnswer, decimal marginal = 0, int points = 1)
+        /// <summary>
+        /// Creates the syntax for a Numerical question type
+        /// </summary>
+        /// <param name="correctAnswer">The correct answer</param>
+        /// <param name="margin">The margin of error</param>
+        /// <param name="points">The amount of points given</param>
+        /// <returns>A string with the syntax</returns>
+        private static string CreateNumerical(decimal correctAnswer, decimal margin = 0, int points = 1)
         {
             string question = "{";
-            question += $"{points}:NUMERICAL:={correctAnswer}:{marginal}";
+            question += $"{points}:NUMERICAL:={correctAnswer}:{margin}";
             return question += "}";
         }
-        
-        
-        private static string CreateShortAnswer(bool isCaseSensitive, List<AnswerOption> answers, int points = 1)
+
+        /// <summary>
+        /// Creates the syntax for a SHORTANSWER question type
+        /// </summary>
+        /// <param name="isCaseSensitive">If the answer check is case sensitive</param>
+        /// <param name="answers">A list of the correct answers</param>
+        /// <param name="points">The amount of points given</param>
+        /// <returns>A string with the syntax</returns>
+        private static string CreateShortAnswer(List<AnswerOption> answers, bool isCaseSensitive, int points = 1)
         {
             string question = "{";
             question += $"{points}:";
@@ -72,7 +84,14 @@ namespace SyntaxGenerator
             return question += "}";
         }
 
-        
+        /// <summary>
+        /// Creates the syntax for a MULTICHOICE question type
+        /// </summary>
+        /// <param name="answers">A list of the correct answers</param>
+        /// <param name="isRandomized">Whether or not the answers are scrambled</param>
+        /// <param name="isVertical">Are the answer options vertical (true), horizontal (false) or in a dropbox (null)</param>
+        /// <param name="points">The amount of points given</param>
+        /// <returns>A string with the syntax</returns>
         private static string CreateMultiChoice(List<AnswerOption> answers, bool isRandomized, bool? isVertical, int points = 1)
         {
             string question = "{";
@@ -153,7 +172,14 @@ namespace SyntaxGenerator
             return question += "}";
         }
 
-        
+        /// <summary>
+        /// Creates the syntax for a MULTIRESPONSE question type
+        /// </summary>
+        /// <param name="answers">A list of the correct answers</param>
+        /// <param name="isRandomized">Whether or not the answers are scrambled</param>
+        /// <param name="isVertical">Are the answer options vertical (true) or horizontal (false)</param>
+        /// <param name="points">The amount of points given</param>
+        /// <returns>A string with the syntax</returns>
         private static string CreateMultiResponse(List<AnswerOption> answers, bool isRandomized, bool isVertical, int points = 1)
         {
             string question = "{";
