@@ -14,12 +14,12 @@ namespace SyntaxGenerator
         /// </summary>
         /// <param name="correctAnswer">The correct answer</param>
         /// <param name="margin">The margin of error</param>
-        /// <param name="points">The amount of points given</param>
+        /// <param name="maxPoints">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        public static string CreateNumerical(decimal correctAnswer, decimal margin = 0, int points = 1)
+        public static string CreateNumerical(decimal correctAnswer, decimal margin = 0, int maxPoints = 1)
         {
             string question = "{";
-            question += $"{points}:NUMERICAL:={correctAnswer}:{margin}";
+            question += $"{maxPoints}:NUMERICAL:={correctAnswer}:{margin}";
             return question += "}";
         }
 
@@ -28,12 +28,12 @@ namespace SyntaxGenerator
         /// </summary>
         /// <param name="isCaseSensitive">If the answer check is case sensitive</param>
         /// <param name="answers">A list of the correct answers</param>
-        /// <param name="points">The amount of points given</param>
+        /// <param name="maxPoints">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        public static string CreateShortAnswer(List<AnswerOption> answers, bool isCaseSensitive, int points = 1)
+        public static string CreateShortAnswer(List<AnswerOption> answers, string feedback, bool isCaseSensitive, int maxPoints = 1)
         {
             string question = "{";
-            question += $"{points}:";
+            question += $"{maxPoints}:";
             
             if (isCaseSensitive == true)
             {
@@ -45,7 +45,7 @@ namespace SyntaxGenerator
                 question += "SHORTANSWER:";
             }
             
-            for (int i = 0; i < answers.Count(); i++)
+            for (int i = 0; i < answers.Count; i++)
             {
                 AnswerOption answer = answers[i];
 
@@ -75,13 +75,13 @@ namespace SyntaxGenerator
                     }
                 }
 
-                if ((i + 1) != answers.Count())
+                if ((i + 1) != answers.Count)
                 {
                     question += "~";
                 }
             }
 
-            return question += "}";
+            return question += $"*#{feedback}" + "}";
         }
 
         /// <summary>
@@ -90,12 +90,12 @@ namespace SyntaxGenerator
         /// <param name="answers">A list of the correct answers</param>
         /// <param name="isRandomized">Whether or not the answers are scrambled</param>
         /// <param name="isVertical">Are the answer options vertical (true), horizontal (false) or in a dropbox (null)</param>
-        /// <param name="points">The amount of points given</param>
+        /// <param name="maxPoints">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        public static string CreateMultiChoice(List<AnswerOption> answers, bool isRandomized, bool? isVertical, int points = 1)
+        public static string CreateMultiChoice(List<AnswerOption> answers, bool isRandomized, bool? isVertical, int maxPoints = 1)
         {
             string question = "{";
-            question += $"{points}:";
+            question += $"{maxPoints}:";
             
             if (isRandomized == true)
             {
@@ -133,7 +133,7 @@ namespace SyntaxGenerator
                 }
             }
 
-            for (int i = 0; i < answers.Count(); i++)
+            for (int i = 0; i < answers.Count; i++)
             {
                 AnswerOption answer = answers[i];
 
@@ -163,7 +163,7 @@ namespace SyntaxGenerator
                     }
                 }
 
-                if ((i + 1) != answers.Count())
+                if ((i + 1) != answers.Count)
                 {
                     question += "~";
                 }
@@ -178,12 +178,12 @@ namespace SyntaxGenerator
         /// <param name="answers">A list of the correct answers</param>
         /// <param name="isRandomized">Whether or not the answers are scrambled</param>
         /// <param name="isVertical">Are the answer options vertical (true) or horizontal (false)</param>
-        /// <param name="points">The amount of points given</param>
+        /// <param name="maxPpoints">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        public static string CreateMultiResponse(List<AnswerOption> answers, bool isRandomized, bool isVertical, int points = 1)
+        public static string CreateMultiResponse(List<AnswerOption> answers, bool isRandomized, bool isVertical, int maxPpoints = 1)
         {
             string question = "{";
-            question += $"{points}:";
+            question += $"{maxPpoints}:";
 
             if (isRandomized == true)
             {
@@ -213,7 +213,7 @@ namespace SyntaxGenerator
                 }
             }
 
-            for (int i = 0; i < answers.Count(); i++)
+            for (int i = 0; i < answers.Count; i++)
             {
                 AnswerOption answer = answers[i];
 
@@ -243,7 +243,7 @@ namespace SyntaxGenerator
                     }
                 }
 
-                if ((i + 1) != answers.Count())
+                if ((i + 1) != answers.Count)
                 {
                     question += "~";
                 }
