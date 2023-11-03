@@ -2,9 +2,9 @@
 
 namespace SyntaxGenerator
 {
-    internal class SyntaxGen
+    public class SyntaxGen
     {
-        internal SyntaxGen()
+        public SyntaxGen()
         {
             
         }
@@ -16,7 +16,7 @@ namespace SyntaxGenerator
         /// <param name="margin">The margin of error</param>
         /// <param name="points">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        private static string CreateNumerical(decimal correctAnswer, decimal margin = 0, int points = 1)
+        public static string CreateNumerical(decimal correctAnswer, decimal margin = 0, int points = 1)
         {
             string question = "{";
             question += $"{points}:NUMERICAL:={correctAnswer}:{margin}";
@@ -30,7 +30,7 @@ namespace SyntaxGenerator
         /// <param name="answers">A list of the correct answers</param>
         /// <param name="points">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        private static string CreateShortAnswer(List<AnswerOption> answers, bool isCaseSensitive, int points = 1)
+        public static string CreateShortAnswer(List<AnswerOption> answers, bool isCaseSensitive, int points = 1)
         {
             string question = "{";
             question += $"{points}:";
@@ -75,7 +75,7 @@ namespace SyntaxGenerator
                     }
                 }
 
-                if (i != answers.Count())
+                if ((i + 1) != answers.Count())
                 {
                     question += "~";
                 }
@@ -92,7 +92,7 @@ namespace SyntaxGenerator
         /// <param name="isVertical">Are the answer options vertical (true), horizontal (false) or in a dropbox (null)</param>
         /// <param name="points">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        private static string CreateMultiChoice(List<AnswerOption> answers, bool isRandomized, bool? isVertical, int points = 1)
+        public static string CreateMultiChoice(List<AnswerOption> answers, bool isRandomized, bool? isVertical, int points = 1)
         {
             string question = "{";
             question += $"{points}:";
@@ -163,7 +163,7 @@ namespace SyntaxGenerator
                     }
                 }
 
-                if (i != answers.Count())
+                if ((i + 1) != answers.Count())
                 {
                     question += "~";
                 }
@@ -180,7 +180,7 @@ namespace SyntaxGenerator
         /// <param name="isVertical">Are the answer options vertical (true) or horizontal (false)</param>
         /// <param name="points">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        private static string CreateMultiResponse(List<AnswerOption> answers, bool isRandomized, bool isVertical, int points = 1)
+        public static string CreateMultiResponse(List<AnswerOption> answers, bool isRandomized, bool isVertical, int points = 1)
         {
             string question = "{";
             question += $"{points}:";
@@ -243,7 +243,7 @@ namespace SyntaxGenerator
                     }
                 }
 
-                if (i != answers.Count())
+                if ((i + 1) != answers.Count())
                 {
                     question += "~";
                 }

@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace SyntaxGenerator.Models
 {
-    internal class AnswerOption
+    public class AnswerOption
     {
-        internal string Text { get; set; }
-        internal bool IsCorrect { get; set; }
-        internal string ?Feedback { get; set; }
-        
-        internal AnswerOption(string text, bool isCorrect)
+        public string Text { get; set; }
+        public bool IsCorrect { get; set; }
+        public string ?Feedback { get; set; }
+
+        public AnswerOption(string text, bool isCorrect)
         {
             Text = text;
             IsCorrect = isCorrect;
         }
-        
-        internal AnswerOption(string text, bool isCorrect, string feedback)
+
+        public AnswerOption(string text, bool isCorrect, string feedback)
         {
             Text = text;
             IsCorrect = isCorrect;
