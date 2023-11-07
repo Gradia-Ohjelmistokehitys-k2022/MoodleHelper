@@ -2,13 +2,8 @@
 
 namespace SyntaxGenerator
 {
-    public class SyntaxGen
+    public static class SyntaxGen
     {
-        public SyntaxGen()
-        {
-            
-        }
-
         /// <summary>
         /// Creates the syntax for a NUMERICAL question type
         /// </summary>
@@ -24,13 +19,26 @@ namespace SyntaxGenerator
         }
 
         /// <summary>
+        /// Creates the syntax for a NUMERICAL question type without margin of error
+        /// </summary>
+        /// <param name="correctAnswer">The correct answer</param>
+        /// <param name="maxPoints">The amount of points given</param>
+        /// <returns>A string with the syntax</returns>
+        public static string CreateNumerical(decimal correctAnswer, int maxPoints = 1)
+        {
+            string question = "{";
+            question += $"{maxPoints}:NUMERICAL:={correctAnswer}";
+            return question += "}";
+        }
+
+        /// <summary>
         /// Creates the syntax for a SHORTANSWER question type
         /// </summary>
         /// <param name="isCaseSensitive">If the answer check is case sensitive</param>
         /// <param name="answers">A list of the correct answers</param>
         /// <param name="maxPoints">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        public static string CreateShortAnswer(List<AnswerOption> answers, string feedback, bool isCaseSensitive, int maxPoints = 1)
+        public static string CreateShortAnswer(List<AnswerOption> answers, string feedback, bool isCaseSensitive, decimal percentCorrect, int maxPoints = 1)
         {
             string question = "{";
             question += $"{maxPoints}:";
@@ -44,7 +52,13 @@ namespace SyntaxGenerator
             {
                 question += "SHORTANSWER:";
             }
-            
+
+            // If no percent for a correct answer is given, set it to 100
+            if (percentCorrect == 0)
+            {
+                percentCorrect = 100;
+            }
+
             for (int i = 0; i < answers.Count; i++)
             {
                 AnswerOption answer = answers[i];
@@ -53,12 +67,12 @@ namespace SyntaxGenerator
                 {
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
-                        question += $"%100%{answer.Text}";
+                        question += $"%{percentCorrect}%{answer.Text}";
                     }
 
                     else
                     {
-                        question += $"%100%{answer.Text}#{answer.Feedback}";
+                        question += $"%{percentCorrect}%{answer.Text}#{answer.Feedback}";
                     }
                 }
 
@@ -89,48 +103,38 @@ namespace SyntaxGenerator
         /// </summary>
         /// <param name="answers">A list of the correct answers</param>
         /// <param name="isRandomized">Whether or not the answers are scrambled</param>
-        /// <param name="isVertical">Are the answer options vertical (true), horizontal (false) or in a dropbox (null)</param>
+        /// <param name="isVertical">Are the answer options presented vertically (true), horizontally (false) or in a dropbox (null)</param>
         /// <param name="maxPoints">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        public static string CreateMultiChoice(List<AnswerOption> answers, bool isRandomized, bool? isVertical, int maxPoints = 1)
+        public static string CreateMultiChoice(List<AnswerOption> answers, bool isRandomized, bool? isVertical, decimal percentCorrect, int maxPoints = 1)
         {
             string question = "{";
             question += $"{maxPoints}:";
             
             if (isRandomized == true)
             {
-                switch (isVertical)
+                question += isVertical switch
                 {
-                    case true:
-                        question += "MULTICHOICE_VS:";
-                        break;
-
-                    case false:
-                        question += "MULTICHOICE_HS:";
-                        break;
-
-                    default:
-                        question += "MULTICHOICE_S:";
-                        break;
-                }
+                    true => "MULTICHOICE_VS:",
+                    false => "MULTICHOICE_HS:",
+                    _ => "MULTICHOICE_S:"
+                };
             }
             
             else
             {
-                switch (isVertical)
+                question += isVertical switch
                 {
-                    case true:
-                        question += "MULTICHOICE_V:";
-                        break;
+                    true => "MULTICHOICE_V:",
+                    false => "MULTICHOICE_H:",
+                    _ => "MULTICHOICE:"
+                };
+            }
 
-                    case false:
-                        question += "MULTICHOICE_H:";
-                        break;
-
-                    default:
-                        question += "MULTICHOICE:";
-                        break;
-                }
+            // If no percent for a correct answer is given, set it to 100
+            if (percentCorrect == 0)
+            {
+                percentCorrect = 100;
             }
 
             for (int i = 0; i < answers.Count; i++)
@@ -141,12 +145,12 @@ namespace SyntaxGenerator
                 {
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
-                        question += $"={answer.Text}";
+                        question += $"%{percentCorrect}%{answer.Text}";
                     }
 
                     else
                     {
-                        question += $"={answer.Text}#{answer.Feedback}";
+                        question += $"%{percentCorrect}%{answer.Text}#{answer.Feedback}";
                     }
                 }
                 
@@ -163,6 +167,7 @@ namespace SyntaxGenerator
                     }
                 }
 
+                // Add a wavy line for the next answer option if not the last answer
                 if ((i + 1) != answers.Count)
                 {
                     question += "~";
@@ -178,12 +183,12 @@ namespace SyntaxGenerator
         /// <param name="answers">A list of the correct answers</param>
         /// <param name="isRandomized">Whether or not the answers are scrambled</param>
         /// <param name="isVertical">Are the answer options vertical (true) or horizontal (false)</param>
-        /// <param name="maxPpoints">The amount of points given</param>
+        /// <param name="maxPoints">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        public static string CreateMultiResponse(List<AnswerOption> answers, bool isRandomized, bool isVertical, int maxPpoints = 1)
+        public static string CreateMultiResponse(List<AnswerOption> answers, bool isRandomized, bool isVertical, decimal percentCorrect, int maxPoints = 1)
         {
             string question = "{";
-            question += $"{maxPpoints}:";
+            question += $"{maxPoints}:";
 
             if (isRandomized == true)
             {
@@ -213,6 +218,12 @@ namespace SyntaxGenerator
                 }
             }
 
+            // If no percent for a correct answer is given, set it to 100
+            if (percentCorrect == 0)
+            {
+                percentCorrect = 100;
+            }
+
             for (int i = 0; i < answers.Count; i++)
             {
                 AnswerOption answer = answers[i];
@@ -221,12 +232,12 @@ namespace SyntaxGenerator
                 {
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
-                        question += $"={answer.Text}";
+                        question += $"%{percentCorrect}%{answer.Text}";
                     }
 
                     else
                     {
-                        question += $"={answer.Text}#{answer.Feedback}";
+                        question += $"%{percentCorrect}%{answer.Text}#{answer.Feedback}";
                     }
                 }
 
