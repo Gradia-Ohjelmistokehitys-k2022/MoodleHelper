@@ -1,0 +1,56 @@
+﻿@page "/Numerical"
+@using static SyntaxGenerator.SyntaxGen
+@using SyntaxGenerator.Models
+@inject IJSRuntime JSRuntime
+
+<Button To="/" Color="ButtonColor.Primary" Outline="true" Type="ButtonType.Link"> Palaa </Button>
+<h3>Numeerinen</h3>
+
+<p>
+    <ul>Syötä Vastaus.</ul>
+
+</p>
+<input id="shortAnswer" @bind="answerString" style="width: 300px;" />
+
+
+<ul>Syötä pistemarginaali.</ul>
+<input @bind="marginAmount" style="width: 300px;" />
+
+<ul>Syötä Pistemäärä</ul>
+<input type="number" @bind="pointAmount" style="width: 300px;" />
+
+
+<Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateNumerical">Luo syntaksi</Button>
+
+<h3>Tulos: @numericalResult</h3>
+<Button Color="ButtonColor.Secondary" id=shortButton Outline="true" Disabled="@disabled" @onclick="CopyTextToClipboard">Kopioi leikepöydälle</Button>
+
+
+@code {
+    bool agree1; 
+    private bool enabled = false;
+    private bool disabled = true;
+    private string numericalResult = "";
+    private static string answerString { get; set; }
+    private static string marginAmount { get; set; }
+    private static string pointAmount { get; set; }
+    private static decimal decimalAnswer;
+    string previous = "";
+    List<AnswerOption> AnswersList = new List<AnswerOption>();
+
+    //copies the result to the clipboard
+    private async Task CopyTextToClipboard()
+    {
+        await JSRuntime.InvokeVoidAsync("copyClipboard(@numericalResult)");
+    }
+
+    //enables the copy button for the result
+    private void EnableResultButton() => disabled = false;
+
+    private void GenerateNumerical()
+    {
+        //uses the generator from SyntaxGen.cs, which is located in the "code" folder of the project
+        numericalResult = CreateNumerical(Convert.ToDecimal(answerString), Convert.ToDecimal(marginAmount), Convert.ToInt32(pointAmount));
+        EnableResultButton();
+    }
+}

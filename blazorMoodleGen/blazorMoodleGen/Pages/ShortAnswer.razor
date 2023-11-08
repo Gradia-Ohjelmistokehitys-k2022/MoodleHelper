@@ -37,7 +37,7 @@
     //copies the result to the clipboard
     private async Task CopyTextToClipboard()
     {
-        await JSRuntime.InvokeVoidAsync("copyClipboard");
+        await JSRuntime.InvokeVoidAsync("copyClipboard(@shortAnswer)");
     }
 
     //enables the copy button for the result

@@ -1,21 +1,17 @@
 ﻿@page "/"
 @inject IJSRuntime JSRuntime
 
-<PageTitle>Blazor Bootstrap - Home</PageTitle>
+<PageTitle>Hello world!</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Moodle generaattori</h1>
 
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
 
 <Dropdown>
     <DropdownToggleButton Color="ButtonColor.Secondary">Dropdown button</DropdownToggleButton>
     <DropdownMenu>
         <DropdownItem To="/ShortAnswer" Type="ButtonType.Link">Lyhyt vastaus</DropdownItem>
-        <DropdownItem To="#" Type="ButtonType.Link">Lyhyt vastaus (Merkkikokoriippuvainen)</DropdownItem>
         <DropdownItem To="#" Type="ButtonType.Link">Monivalinta</DropdownItem>
         <DropdownItem To="#" Type="ButtonType.Link">Valintanappi</DropdownItem>
-        <DropdownItem To="#" Type="ButtonType.Link">Numeerinen</DropdownItem>
+        <DropdownItem To="/Numerical" Type="ButtonType.Link">Numeerinen</DropdownItem>
     </DropdownMenu>
 </Dropdown>
