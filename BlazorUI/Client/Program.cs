@@ -13,6 +13,7 @@ namespace BlazorUI
             builder.RootComponents.Add<HeadOutlet>("head::after");
             
             builder.Services.AddScoped<CookieStorageAccessor>();
+            builder.Services.AddScoped<Services.ClipboardService>();
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             await builder.Build().RunAsync();

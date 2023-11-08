@@ -1,4 +1,5 @@
 ﻿@page "/syntaxgenerator"
+@inject ClipboardService ClipboardService
 
 <h3>Syntax Generator</h3>
 
@@ -147,8 +148,9 @@
 
 @if (!string.IsNullOrEmpty(syntax))
 {
-    <div @onclick="Copy" class="alert alert-success mt-3">
+    <div class="alert alert-success mt-3">
         Generated Syntax: @syntax
+        <button class="btn btn-outline-secondary" @onclick="() => CopyToClipboard(syntax)">Copy to Clipboard</button>
     </div>
 }
 
@@ -166,9 +168,17 @@
     private List<AnswerOption> mrAnswers = new List<AnswerOption>();
     private string? syntax;
 
-    private void Copy()
+    private async Task CopyToClipboard(string text)
     {
-        
+        // Writing to the clipboard may be denied, so you must handle the exception
+        try
+        {
+            await ClipboardService.WriteTextAsync(text);
+        }
+        catch
+        {
+            Console.WriteLine("Cannot write text to clipboard");
+        }
     }
 
     private void AddAnswerOption(string listName)
