@@ -2,9 +2,14 @@
 {
     public class AnswerOption
     {
-        public string Text { get; set; }
+        public string? Text { get; set; }
         public bool IsCorrect { get; set; }
         public string? Feedback { get; set; }
+
+        public AnswerOption()
+        {
+            
+        }
 
         public AnswerOption(string text, bool isCorrect)
         {
