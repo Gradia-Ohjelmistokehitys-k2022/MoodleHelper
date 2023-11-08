@@ -150,7 +150,8 @@
 {
     <div class="alert alert-success mt-3">
         Generated Syntax: @syntax
-        <button class="btn btn-outline-secondary" @onclick="() => CopyToClipboard(syntax)">Copy to Clipboard</button>
+        <button class="btn btn-outline-success" @onclick="() => CopyToClipboard(syntax)">Copy to Clipboard</button>
+        <Popup @ref="popup" />
     </div>
 }
 
@@ -167,17 +168,17 @@
     private List<AnswerOption> mcAnswers = new List<AnswerOption>();
     private List<AnswerOption> mrAnswers = new List<AnswerOption>();
     private string? syntax;
+    private Popup popup = new Popup();
 
     private async Task CopyToClipboard(string text)
     {
-        // Writing to the clipboard may be denied, so you must handle the exception
         try
         {
             await ClipboardService.WriteTextAsync(text);
         }
         catch
         {
-            Console.WriteLine("Cannot write text to clipboard");
+            popup.Show("Failed to copy to clipboard", "Error");
         }
     }
 
