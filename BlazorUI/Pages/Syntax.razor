@@ -169,20 +169,20 @@
     private int maxPoints = 1;
     private string? feedback;
     private string? syntax;
-    
+
     // Numerical
     private decimal correctNumAnswer;
     private decimal margin;
-    
+
     // Short Answer
     private List<AnswerOption> saAnswers = new List<AnswerOption>();
     private bool isCaseSensitive;
-    
+
     // Multi Choice
     private List<AnswerOption> mcAnswers = new List<AnswerOption>();
     private bool? multiCIsVertical;
     private bool isMCRandomized;
-    
+
     // Multi Response
     private List<AnswerOption> mrAnswers = new List<AnswerOption>();
     private bool multiRIsVertical;
@@ -229,7 +229,15 @@
             _ => throw new ArgumentException("Invalid list name", nameof(listName))
         };
 
-        correctList.Remove(answerOption);
+        try
+        {
+            correctList.Remove(answerOption);
+        }
+
+        catch
+        {
+            throw new ArgumentOutOfRangeException("Given object is not in given list", nameof(answerOption));
+        }
     }
 
     private void PresentationClick(int boxChecked)
