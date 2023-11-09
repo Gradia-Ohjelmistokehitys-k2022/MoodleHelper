@@ -1,43 +1,41 @@
-name: Deploy to GitHub Pages
+name: Your github action
 
-# Run workflow on every push to the main branch
 on:
   push:
-    branches: [ main ]
+    branches:
+      # NOTE: You may want to limit the trigger branch to be "main" or "master" etc.
+      - main
 
 jobs:
-  deploy-to-github-pages:
-    # use ubuntu-latest image to run steps on
+  publish:
     runs-on: ubuntu-latest
     steps:
-    # uses GitHub's checkout action to checkout code form the master branch
-    - uses: actions/checkout@v2
-    
-    # sets up .NET Core SDK 3.1
-    - name: Setup .NET Core SDK
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1
+      - name: Check out
+        uses: actions/checkout@v3
 
-    # publishes Blazor project to the release-folder
-    - name: Publish .NET Core Project
-      run: dotnet publish BlazorUI\BlazorUI.csproj -c Release -o release --nologo
-    
-    # changes the base-tag in index.html from '/' to 'BlazorUI' to match GitHub Pages repository subdirectory
-    - name: Change base-tag in index.html from / to BlazorUI
-      run: sed -i 's/<base href="\/" \/>/<base href="\/MoodleHelper\/" \/>/g' BlazorUI/wwwroot/index.html
-    
-    # copy index.html to 404.html to serve the same file when a file is not found
-    - name: copy index.html to 404.html
-      run: cp BlazorUI/wwwroot/index.html BlazorUI/wwwroot/404.html
+      - name: Generate your content
+        run: echo "Optional placeholder. Put your project's static website generator command here."
 
-    # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
-    - name: Add .nojekyll file
-      run: touch BlazorUI/wwwroot/.nojekyll
-      
-    - name: Commit wwwroot to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@3.7.1
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: BlazorUI/wwwroot
+      - name: Publish current workdir (which contains generated content) to GitHub Pages
+        uses: rayluo/github-pages-overwriter@v1.3
+
+        with:
+
+          # Optional. Default value "." means the root directory of your project will be published.
+          # You can use whatever directory your project uses, for example "wwwroot".
+          # Such a directory does *not* have to already exist in your repo,
+          # it could be an output directory created dynamically by your static website builder.
+          source-directory: .
+
+          # Optional. Default value "gh-pages".
+          # It specifies the temporary branch which hosts the static website.
+          # Each build will OVERWRITE this branch.
+          target-branch: gh-pages
+          
+      # changes the base-tag in index.html from '/' to 'MoodleHelper' to match GitHub Pages repository subdirectory
+      - name: Change base-tag in index.html from / to MoodleHelper
+        run: sed -i 's/<base href="\/" \/>/<base href="\/BlazorUI\/" \/>/g' BlazorUI/wwwroot/index.html
+
+      # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+      - name: Add .nojekyll file
+        run: touch BlazorUI/wwwroot/.nojekyll
