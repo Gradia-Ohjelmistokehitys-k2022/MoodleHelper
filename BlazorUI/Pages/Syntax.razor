@@ -91,7 +91,7 @@
     <br/>
     <div class="form-group">
         <label for="isRandomized">Randomize Answers:</label>
-        <input type="checkbox" class="form-check-input" @bind="isRandomized">
+        <input type="checkbox" class="form-check-input" @bind="isMCRandomized">
     </div>    
 
     <div class="form-group">
@@ -139,7 +139,7 @@
     <br/>
     <div class="form-group">
         <label for="isRandomized">Randomize Answers:</label>
-        <input type="checkbox" class="form-check-input" @bind="isRandomized">
+        <input type="checkbox" class="form-check-input" @bind="isMRRandomized">
     </div>
 
     <div class="form-group">
@@ -166,24 +166,33 @@
 }
 
 @code {
-    private string selectedQuestionType = "Numerical";
+    private int maxPoints = 1;
+    private string? feedback;
+    private string? syntax;
+    
+    // Numerical
     private decimal correctNumAnswer;
     private decimal margin;
-    private bool isCaseSensitive;
-    private bool multiRIsVertical;
-    private bool? multiCIsVertical;
-    private bool isRandomized;
-    private string? feedback;
-    private int maxPoints = 1;
+    
+    // Short Answer
     private List<AnswerOption> saAnswers = new List<AnswerOption>();
+    private bool isCaseSensitive;
+    
+    // Multi Choice
     private List<AnswerOption> mcAnswers = new List<AnswerOption>();
+    private bool? multiCIsVertical;
+    private bool isMCRandomized;
+    
+    // Multi Response
     private List<AnswerOption> mrAnswers = new List<AnswerOption>();
-    private string? syntax;
-    private Popup popup = new Popup();
+    private bool multiRIsVertical;
+    private bool isMRRandomized;
 
+    private Popup popup = new Popup();
     private bool verChecked = false;
     private bool horChecked = false;
     private bool droChecked = false;
+    private string selectedQuestionType = "Numerical";
 
     private async Task CopyToClipboard(string text)
     {
@@ -261,10 +270,10 @@
                 syntax = SyntaxGen.CreateShortAnswer(saAnswers, feedback, isCaseSensitive, 100, maxPoints);
                 break;
             case "MultiChoice":
-                syntax = SyntaxGen.CreateMultiChoice(mcAnswers, isRandomized, multiCIsVertical, 100, maxPoints);
+                syntax = SyntaxGen.CreateMultiChoice(mcAnswers, isMCRandomized, multiCIsVertical, 100, maxPoints);
                 break;
             case "MultiResponse":
-                syntax = SyntaxGen.CreateMultiResponse(mrAnswers, isRandomized, multiRIsVertical, 100, maxPoints);
+                syntax = SyntaxGen.CreateMultiResponse(mrAnswers, isMRRandomized, multiRIsVertical, 100, maxPoints);
                 break;
             default:
                 syntax = "Invalid question type selected.";
