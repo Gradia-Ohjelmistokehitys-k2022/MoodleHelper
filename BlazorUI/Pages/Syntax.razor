@@ -95,8 +95,18 @@
     </div>    
 
     <div class="form-group">
-        <label for="isVertical">Vertical Presentation:</label>
-        <input type="checkbox" class="form-check-input" @bind="isVertical">
+        <label for="verChecked">Vertical Presentation:</label>
+        <input type="checkbox" checked="@verChecked" class="form-check-input" @onclick="() => PresentationClick(1)">
+    </div>
+
+    <div class="form-group">
+        <label for="horChecked">Horizontal Presentation:</label>
+        <input type="checkbox" checked="@horChecked" class="form-check-input" @onclick="() => PresentationClick(2)">
+    </div>
+
+    <div class="form-group">
+        <label for="droChecked">Dropdown Presentation:</label>
+        <input type="checkbox" checked="@droChecked" class="form-check-input" @onclick="() => PresentationClick(3)">
     </div>
 }
 
@@ -123,7 +133,7 @@
             </div>
             <div>
                 <button @onclick="() => RemoveAnswerOption(selectedQuestionType, answerOption)" class="btn btn-outline-danger">Remove</button>
-            </div> 
+            </div>
         }   
     
     <br/>
@@ -134,7 +144,7 @@
 
     <div class="form-group">
         <label for="isVertical">Vertical Presentation:</label>
-        <input type="checkbox" class="form-check-input" @bind="isVertical">
+        <input type="checkbox" class="form-check-input" @bind="multiRIsVertical">
     </div>
 }
 
@@ -160,7 +170,8 @@
     private decimal correctNumAnswer;
     private decimal margin;
     private bool isCaseSensitive;
-    private bool isVertical;
+    private bool multiRIsVertical;
+    private bool? multiCIsVertical;
     private bool isRandomized;
     private string? feedback;
     private int maxPoints = 1;
@@ -169,6 +180,10 @@
     private List<AnswerOption> mrAnswers = new List<AnswerOption>();
     private string? syntax;
     private Popup popup = new Popup();
+
+    private bool verChecked = false;
+    private bool horChecked = false;
+    private bool droChecked = false;
 
     private async Task CopyToClipboard(string text)
     {
@@ -208,6 +223,33 @@
         correctList.Remove(answerOption);
     }
 
+    private void PresentationClick(int boxChecked)
+    {
+        switch (boxChecked)
+        {
+            case 1:
+                verChecked = true;
+                horChecked = false;
+                droChecked = false;
+                multiCIsVertical = true;
+                break;
+            case 2:
+                verChecked = false;
+                horChecked = true;
+                droChecked = false;
+                multiCIsVertical = false;
+                break;
+            case 3:
+                verChecked = false;
+				horChecked = false;
+				droChecked = true;
+				multiCIsVertical = null;
+				break;
+            default:
+				break;
+        }
+    }
+
     private void GenerateSyntax()
     {
         switch (selectedQuestionType)
@@ -219,10 +261,10 @@
                 syntax = SyntaxGen.CreateShortAnswer(saAnswers, feedback, isCaseSensitive, 100, maxPoints);
                 break;
             case "MultiChoice":
-                syntax = SyntaxGen.CreateMultiChoice(mcAnswers, isRandomized, isVertical, 100, maxPoints);
+                syntax = SyntaxGen.CreateMultiChoice(mcAnswers, isRandomized, multiCIsVertical, 100, maxPoints);
                 break;
             case "MultiResponse":
-                syntax = SyntaxGen.CreateMultiResponse(mrAnswers, isRandomized, isVertical, 100, maxPoints);
+                syntax = SyntaxGen.CreateMultiResponse(mrAnswers, isRandomized, multiRIsVertical, 100, maxPoints);
                 break;
             default:
                 syntax = "Invalid question type selected.";
