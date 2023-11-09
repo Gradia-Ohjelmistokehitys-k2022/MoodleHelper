@@ -1,32 +1,25 @@
-name: Github pages
+name: gh-pages
 
-on:
-  push:
-    branches:
-      # NOTE: You may want to limit the trigger branch to be "main" or "master" etc.
-      - main
+on: [push]
 
 jobs:
-  publish:
+  build:
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: Check out
-        uses: actions/checkout@v3
-
-      - name: Generate your content
-        run: echo "Optional placeholder. Put your project's static website generator command here."
-
-      - name: Publish current workdir (which contains generated content) to GitHub Pages
-        uses: rayluo/github-pages-overwriter@v1.3
-
-        with:
-          # Optional. Default value "." means the root directory of your project will be published.
-          # You can use whatever directory your project uses, for example "wwwroot".
-          # Such a directory does *not* have to already exist in your repo,
-          # it could be an output directory created dynamically by your static website builder.
-          source-directory: BlazorUI/wwwroot
-
-          # Optional. Default value "gh-pages".
-          # It specifies the temporary branch which hosts the static website.
-          # Each build will OVERWRITE this branch.
-          target-branch: gh-pages
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Publish with dotnet
+      run: dotnet publish --configuration Release --output build
+    - name: Deploy to Github Pages
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BASE_BRANCH: main # The branch the action should deploy from.
+        BRANCH: gh-pages-from-actions # The branch the action should deploy to.
+        FOLDER: build/wwwroot # The folder the action should deploy.
+        SINGLE_COMMIT: true
