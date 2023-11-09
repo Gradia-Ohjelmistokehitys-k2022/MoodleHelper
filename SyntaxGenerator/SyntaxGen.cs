@@ -19,19 +19,6 @@ namespace SyntaxGenerator
         }
 
         /// <summary>
-        /// Creates the syntax for a NUMERICAL question type without margin of error
-        /// </summary>
-        /// <param name="correctAnswer">The correct answer</param>
-        /// <param name="maxPoints">The amount of points given</param>
-        /// <returns>A string with the syntax</returns>
-        public static string CreateNumerical(decimal correctAnswer, int maxPoints = 1)
-        {
-            string question = "{";
-            question += $"{maxPoints}:NUMERICAL:={correctAnswer}";
-            return question += "}";
-        }
-
-        /// <summary>
         /// Creates the syntax for a SHORTANSWER question type
         /// </summary>
         /// <param name="isCaseSensitive">If the answer check is case sensitive</param>
@@ -93,6 +80,11 @@ namespace SyntaxGenerator
                 {
                     question += "~";
                 }
+            }
+
+            if (string.IsNullOrWhiteSpace(feedback))
+            {
+                return question += "}";
             }
 
             return question += $"*#{feedback}" + "}";
