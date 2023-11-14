@@ -29,10 +29,6 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./BlazorUI/publish/wwwroot
-        
-          # changes the base-tag in index.html from '/' to 'BlazorUI' to match GitHub Pages repository subdirectory
-    - name: Change base-tag in index.html from / to BlazorUI
-      run: sed -i 's/<base href="\/" \/>/<base href="\/BlazorUI\/" \/>/g' BlazorUI/wwwroot/index.html
 
       # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
     - name: Add .nojekyll file
