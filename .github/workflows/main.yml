@@ -28,7 +28,7 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./BlazorUI/publish/wwwroot
+        publish_dir: ./BlazorUI/bin/Release/net5.0/publish/wwwroot
 
       # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
     - name: Add .nojekyll file
