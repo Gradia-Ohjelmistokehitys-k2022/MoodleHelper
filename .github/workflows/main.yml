@@ -24,17 +24,15 @@ jobs:
         dotnet publish --configuration Release -o ./publish
       working-directory: ./BlazorUI
 
-    - name: Rewrite base href
-      uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
-      with:
-        html_path: ${{ env.PUBLISH_DIR }}/index.html
-        base_href: /MoodleHelper/
-
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./BlazorUI/publish/wwwroot
+
+    - name: Update base href
+      run: |
+        sed -i 's|<base href="/" />|<base href="/MoodleHelper/" />|' ./BlazorUI/publish/wwwroot/index.html
 
     # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
     - name: Add .nojekyll file
