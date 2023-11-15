@@ -99,17 +99,17 @@
 
     <div class="form-group">
         <label for="verChecked">Vertical Presentation:</label>
-        <input type="checkbox" checked="@verChecked" class="form-check-input" @onclick="() => PresentationClick(1)">
+        <input type="checkbox" checked="@mcVerChecked" class="form-check-input" @onclick="() => mcPresentationClick(1)">
     </div>
 
     <div class="form-group">
         <label for="horChecked">Horizontal Presentation:</label>
-        <input type="checkbox" checked="@horChecked" class="form-check-input" @onclick="() => PresentationClick(2)">
+        <input type="checkbox" checked="@msHorChecked" class="form-check-input" @onclick="() => mcPresentationClick(2)">
     </div>
 
     <div class="form-group">
         <label for="droChecked">Dropdown Presentation:</label>
-        <input type="checkbox" checked="@droChecked" class="form-check-input" @onclick="() => PresentationClick(3)">
+        <input type="checkbox" checked="@msDroChecked" class="form-check-input" @onclick="() => mcPresentationClick(3)">
     </div>
 }
 
@@ -147,7 +147,12 @@
 
     <div class="form-group">
         <label for="multiRIsVertical">Vertical Presentation:</label>
-        <input type="checkbox" class="form-check-input" @bind="multiRIsVertical">
+        <input type="checkbox" class="form-check-input" checked="@mrVerChecked" @onclick="() => mrPresentationClick(1)">
+    </div> 
+
+    <div class="form-group">
+        <label for="multiRIsVertical">Horizontal Presentation:</label>
+        <input type="checkbox" class="form-check-input" checked="@mrHorChecked" @onclick="() => mrPresentationClick(2)">
     </div>
 }
 
@@ -169,9 +174,11 @@
 }
 
 @code {
+    private string selectedQuestionType = "Numerical";
     private int maxPoints = 1;
     private string? feedback;
     private string? syntax;
+    private Popup popup = new Popup();
 
     // Numerical
     private decimal correctNumAnswer;
@@ -183,19 +190,18 @@
 
     // Multi Choice
     private List<AnswerOption> mcAnswers = new List<AnswerOption>();
-    private bool? multiCIsVertical;
-    private bool isMCRandomized;
+    private bool? multiCIsVertical = null;
+    private bool isMCRandomized = true;
+    private bool mcVerChecked = false;
+    private bool msHorChecked = false;
+    private bool msDroChecked = true;
 
     // Multi Response
     private List<AnswerOption> mrAnswers = new List<AnswerOption>();
-    private bool multiRIsVertical;
-    private bool isMRRandomized;
-
-    private Popup popup = new Popup();
-    private bool verChecked = false;
-    private bool horChecked = false;
-    private bool droChecked = false;
-    private string selectedQuestionType = "Numerical";
+    private bool multiRIsVertical = true;
+    private bool isMRRandomized = true;
+    private bool mrVerChecked = true;
+    private bool mrHorChecked = false;
 
     private async Task CopyToClipboard(string text)
     {
@@ -243,29 +249,48 @@
         }
     }
 
-    private void PresentationClick(int boxChecked)
+    private void mcPresentationClick(int boxChecked)
     {
         switch (boxChecked)
         {
             case 1:
-                verChecked = true;
-                horChecked = false;
-                droChecked = false;
+                mcVerChecked = true;
+                msHorChecked = false;
+                msDroChecked = false;
                 multiCIsVertical = true;
                 break;
             case 2:
-                verChecked = false;
-                horChecked = true;
-                droChecked = false;
+                mcVerChecked = false;
+                msHorChecked = true;
+                msDroChecked = false;
                 multiCIsVertical = false;
                 break;
             case 3:
-                verChecked = false;
-				horChecked = false;
-				droChecked = true;
-				multiCIsVertical = null;
-				break;
+                mcVerChecked = false;
+                msHorChecked = false;
+                msDroChecked = true;
+                multiCIsVertical = null;
+                break;
             default:
+                break;
+        }
+    }
+
+    private void mrPresentationClick(int boxChecked)
+    {
+        switch (boxChecked)
+        {
+            case 1:
+				mrVerChecked = true;
+				mrHorChecked = false;
+				multiRIsVertical = true;
+				break;
+			case 2:
+				mrVerChecked = false;
+				mrHorChecked = true;
+				multiRIsVertical = false;
+				break;
+			default:
 				break;
         }
     }
