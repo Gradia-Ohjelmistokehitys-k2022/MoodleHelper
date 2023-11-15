@@ -3,6 +3,8 @@
 @using SyntaxGenerator.Models
 @inject IJSRuntime JSRuntime
 
+<PageTitle>Lyhyt vastaus | MOODLE GENERAATTORI</PageTitle>
+
 <Button To="/" Color="ButtonColor.Primary" Outline="true" Type="ButtonType.Link"> Palaa </Button>
 <h3>Lyhyt Vastaus</h3>
 
@@ -21,7 +23,6 @@
 <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateShort">Luo syntaksi</Button>
 
 <h3>Tulos: @shortResult</h3>
-<Button Color="ButtonColor.Secondary" id=shortButton Outline="true" Disabled="@disabled" @onclick="CopyTextToClipboard">Kopioi leikepöydälle</Button>
 
 
 @code {
@@ -33,15 +34,6 @@
     private static string feedbackString{ get; set; }
     string previous = "";
     List<AnswerOption> AnswersList = new List<AnswerOption>();
-
-    //copies the result to the clipboard
-    private async Task CopyTextToClipboard()
-    {
-        await JSRuntime.InvokeVoidAsync("copyClipboard(@shortAnswer)");
-    }
-
-    //enables the copy button for the result
-    private void EnableResultButton() => disabled = false;
 
     private void GenerateShort()
     {
@@ -66,6 +58,6 @@
         }
         //uses the generator from SyntaxGen.cs, which is located in the "code" folder of the project
             shortResult = CreateShortAnswer(AnswersList,feedbackString,agree1,1);
-            EnableResultButton();
+
     }
 }
