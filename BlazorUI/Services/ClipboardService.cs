@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.JSInterop;
 
-namespace BlazorUI.Services
+namespace BlazorUITemp.Services
 {
     public class ClipboardService
     {

@@ -1,7 +1,7 @@
 ﻿using SyntaxGenerator;
 using SyntaxGenerator.Models;
 
-namespace BlazorUI.Controllers
+namespace BlazorUITemp.Controllers
 {
     public static class SyntaxController
     {
