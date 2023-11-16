@@ -1,6 +1,8 @@
+using blazorMoodleGen;
 using blazorMoodleGen.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.SetMinimumLevel(LogLevel.Trace);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
