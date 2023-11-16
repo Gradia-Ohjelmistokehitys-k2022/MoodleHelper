@@ -26,14 +26,14 @@ jobs:
 
     - name: Update base href
       run: |
-        sed -i 's|<base href="/" />|<base href="/MoodleHelper/" />|' ./BlazorUITemp/publish/wwwroot/index.html
+        sed -i 's|<base href="/" />|<base href="/MoodleHelper/" />|' ./BlazorUI/publish/wwwroot/index.html
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./BlazorUITemp/publish/wwwroot
+        publish_dir: ./BlazorUI/publish/wwwroot
 
     # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
     - name: Add .nojekyll file
-      run: touch BlazorUITemp/wwwroot/.nojekyll
+      run: touch BlazorUI/wwwroot/.nojekyll
