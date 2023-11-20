@@ -22,18 +22,18 @@ jobs:
       run: |
         dotnet build --configuration Release
         dotnet publish --configuration Release -o ./publish
-      working-directory: ./testBlazorWASM
+      working-directory: ./BlazorUIWebAssembly
 
     - name: Update base href
       run: |
-        sed -i 's|<base href="/" />|<base href="/MoodleHelper/" />|' ./testBlazorWASM/publish/wwwroot/index.html
+        sed -i 's|<base href="/" />|<base href="/MoodleHelper/" />|' ./BlazorUIWebAssembly/publish/wwwroot/index.html
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./testBlazorWASM/publish/wwwroot
+        publish_dir: ./BlazorUIWebAssembly/publish/wwwroot
 
     # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
     - name: Add .nojekyll file
-      run: touch testBlazorWASM/wwwroot/.nojekyll
+      run: touch BlazorUIWebAssembly/wwwroot/.nojekyll
