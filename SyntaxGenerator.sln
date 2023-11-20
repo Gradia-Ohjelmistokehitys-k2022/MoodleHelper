@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorUITemp", "BlazorUI\Bl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "blazorMoodleGen", "blazorMoodleGen\blazorMoodleGen.csproj", "{BB1DA453-7CA9-4403-B7DE-94D59342D137}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testBlazorWASM", "testBlazorWASM\testBlazorWASM.csproj", "{DEF2479A-068E-447B-977B-58672394D407}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "testBlazorWASM", "testBlazorWASM\testBlazorWASM.csproj", "{DEF2479A-068E-447B-977B-58672394D407}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorUIWebAssembly", "BlazorUIWebAssembly\BlazorUIWebAssembly.csproj", "{4085CB24-AC15-433A-8D24-6E769A2CA168}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{DEF2479A-068E-447B-977B-58672394D407}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEF2479A-068E-447B-977B-58672394D407}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEF2479A-068E-447B-977B-58672394D407}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4085CB24-AC15-433A-8D24-6E769A2CA168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4085CB24-AC15-433A-8D24-6E769A2CA168}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4085CB24-AC15-433A-8D24-6E769A2CA168}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4085CB24-AC15-433A-8D24-6E769A2CA168}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
