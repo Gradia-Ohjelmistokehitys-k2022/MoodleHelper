@@ -3,8 +3,7 @@
 <div class="bb-page">
 
     <Sidebar @ref="sidebar"
-             ImageSrc="/images/logo/logo-white.svg"
-             Title="Blazor Bootstrap"
+             Title="Moodle Helper"
              DataProvider="SidebarDataProvider" />
 
     <main>
@@ -37,10 +36,10 @@
     {
         navItems = new List<NavItem>
         {
-            new NavItem { Id = "1", Href = "/", IconName = IconName.HouseDoorFill, Text = "Etusivu", Match=NavLinkMatch.All},
-            new NavItem { Id = "2", Href = "/ShortAnswer", IconName = IconName.PlusSquareFill, Text = "Lyhyt vastaus."},
-            new NavItem { Id = "3", Href = "/Numerical", IconName = IconName.Table, Text = "Numeerinen vastaus"},
-            new NavItem { Id = "3", Href = "/MultiChoice", IconName = IconName.Table, Text = "Monivalinta"},
+            new NavItem { Id = "1", Href = "/MoodleHelper/", IconName = IconName.HouseDoorFill, Text = "Etusivu", Match=NavLinkMatch.All},
+            new NavItem { Id = "2", Href = "/MoodleHelper/ShortAnswer", IconName = IconName.PlusSquareFill, Text = "Lyhyt vastaus."},
+            new NavItem { Id = "3", Href = "/MoodleHelper/Numerical", IconName = IconName.Table, Text = "Numeerinen vastaus"},
+            new NavItem { Id = "3", Href = "/MoodleHelper/MultiChoice", IconName = IconName.Table, Text = "Monivalinta"},
         };
 
         return navItems;

@@ -1,4 +1,4 @@
-﻿@page "/MultiChoice"
+﻿@page "/MoodleHelper/MultiChoice"
 @using static SyntaxGenerator.SyntaxGen
 @using SyntaxGenerator.Models
 @inject IJSRuntime JSRuntime
@@ -7,7 +7,7 @@
 
 
 
-<Button To="/" Color="ButtonColor.Primary" Outline="true" Type="ButtonType.Link"> Palaa </Button>
+<Button To="/MoodleHelper/" Color="ButtonColor.Primary" Outline="true" Type="ButtonType.Link"> Palaa </Button>
 <h3>Monivalinta</h3>
 <ul>Yksi vai useampi valittava vastaus?</ul>
 <ul>Yksi <Switch @bind-Value="show" @onclick="fixBoxed"Label="Useampi oikein"></Switch></ul>
