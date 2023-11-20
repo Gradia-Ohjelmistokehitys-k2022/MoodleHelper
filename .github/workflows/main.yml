@@ -26,7 +26,7 @@ jobs:
 
     - name: Update base href
       run: |
-        sed -i 's|<base href="/" />|<base href="/MoodleHelper/" />|' ./testBlazorWASM/publish/wwwroot/404.html
+        sed -i 's|<base href="/" />|<base href="/MoodleHelper/" />|' ./testBlazorWASM/publish/wwwroot/index.html
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
