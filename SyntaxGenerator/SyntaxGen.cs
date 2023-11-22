@@ -25,7 +25,7 @@ namespace SyntaxGenerator
         /// <param name="answers">A list of the correct answers</param>
         /// <param name="maxPoints">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        public static string CreateShortAnswer(List<AnswerOption> answers, string? feedback, bool isCaseSensitive, decimal percentCorrect, int maxPoints = 1)
+        public static string CreateShortAnswer(List<AnswerOption> answers, string? feedback, bool isCaseSensitive, int maxPoints = 1)
         {
             string question = "{";
             question += $"{maxPoints}:";
@@ -40,12 +40,6 @@ namespace SyntaxGenerator
                 question += "SHORTANSWER:";
             }
 
-            // If no percent for a correct answer is given, set it to 100
-            if (percentCorrect == 0)
-            {
-                percentCorrect = 100;
-            }
-
             for (int i = 0; i < answers.Count; i++)
             {
                 AnswerOption answer = answers[i];
@@ -54,12 +48,12 @@ namespace SyntaxGenerator
                 {
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
-                        question += $"%{percentCorrect}%{answer.Text}";
+                        question += $"%100%{answer.Text}";
                     }
 
                     else
                     {
-                        question += $"%{percentCorrect}%{answer.Text}#{answer.Feedback}";
+                        question += $"%100%{answer.Text}#{answer.Feedback}";
                     }
                 }
 
@@ -98,7 +92,7 @@ namespace SyntaxGenerator
         /// <param name="isVertical">Are the answer options presented vertically (true), horizontally (false) or in a dropbox (null)</param>
         /// <param name="maxPoints">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        public static string CreateMultiChoice(List<AnswerOption> answers, bool isRandomized, bool? isVertical, decimal percentCorrect, int maxPoints = 1)
+        public static string CreateMultiChoice(List<AnswerOption> answers, bool isRandomized, bool? isVertical, int maxPoints = 1)
         {
             string question = "{";
             question += $"{maxPoints}:";
@@ -123,12 +117,6 @@ namespace SyntaxGenerator
                 };
             }
 
-            // If no percent for a correct answer is given, set it to 100
-            if (percentCorrect == 0)
-            {
-                percentCorrect = 100;
-            }
-
             for (int i = 0; i < answers.Count; i++)
             {
                 AnswerOption answer = answers[i];
@@ -137,12 +125,12 @@ namespace SyntaxGenerator
                 {
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
-                        question += $"%{percentCorrect}%{answer.Text}";
+                        question += $"%100%{answer.Text}";
                     }
 
                     else
                     {
-                        question += $"%{percentCorrect}%{answer.Text}#{answer.Feedback}";
+                        question += $"%100%{answer.Text}#{answer.Feedback}";
                     }
                 }
                 
@@ -175,12 +163,15 @@ namespace SyntaxGenerator
         /// <param name="answers">A list of the correct answers</param>
         /// <param name="isRandomized">Whether or not the answers are scrambled</param>
         /// <param name="isVertical">Are the answer options vertical (true) or horizontal (false)</param>
-        /// <param name="maxPoints">The amount of points given</param>
+        /// <param name="pointsPerAnswer">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        public static string CreateMultiResponse(List<AnswerOption> answers, bool isRandomized, bool isVertical, decimal percentCorrect, int maxPoints = 1)
+        public static string CreateMultiResponse(List<AnswerOption> answers, bool isRandomized, bool isVertical, int pointsPerAnswer = 1)
         {
             string question = "{";
-            question += $"{maxPoints}:";
+
+            int totalPoints = answers.Count(answer => answer.IsCorrect) * pointsPerAnswer;
+
+            question += $"{totalPoints}:";
 
             if (isRandomized == true)
             {
@@ -210,11 +201,7 @@ namespace SyntaxGenerator
                 }
             }
 
-            // If no percent for a correct answer is given, set it to 100
-            if (percentCorrect == 0)
-            {
-                percentCorrect = 100;
-            }
+            double percentPerQuestion = Math.Round((double)pointsPerAnswer / totalPoints * 100);
 
             for (int i = 0; i < answers.Count; i++)
             {
@@ -224,12 +211,12 @@ namespace SyntaxGenerator
                 {
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
-                        question += $"%{percentCorrect}%{answer.Text}";
+                        question += $"%{percentPerQuestion}%{answer.Text}";
                     }
 
                     else
                     {
-                        question += $"%{percentCorrect}%{answer.Text}#{answer.Feedback}";
+                        question += $"%{percentPerQuestion}%{answer.Text}#{answer.Feedback}";
                     }
                 }
 

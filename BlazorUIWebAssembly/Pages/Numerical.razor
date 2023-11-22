@@ -8,18 +8,21 @@
 <Button To="/MoodleHelper/" Color="ButtonColor.Primary" Outline="true" Type="ButtonType.Link"> Palaa </Button>
 <h3>Numeerinen</h3>
 
-<p>
-    <ul>Syötä Vastaus.</ul>
+<div>
+    <label for="shortAnswer">Syötä oikea vastaus.</label>
+    <input id="shortAnswer" @bind="answerString" style="width: 300px;" />
+</div>
 
-</p>
-<input id="shortAnswer" @bind="answerString" style="width: 300px;" />
+<div>
+    <label for="marginAmount">Syötä pistemarginaali.</label>
+    <input @bind="marginAmount" style="width: 300px;" />s
+</div>
 
+<div>
+    <label for="pointAmount">Syötä Pistemäärä</label>
+    <input type="number" @bind="pointAmount" style="width: 300px;" />
+</div>
 
-<ul>Syötä pistemarginaali.</ul>
-<input @bind="marginAmount" style="width: 300px;" />
-
-<ul>Syötä Pistemäärä</ul>
-<input type="number" @bind="pointAmount" style="width: 300px;" />
 
 
 <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateNumerical">Luo syntaksi</Button>
