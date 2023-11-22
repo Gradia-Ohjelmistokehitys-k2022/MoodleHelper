@@ -78,14 +78,17 @@
                 <label for="answerOption.Text">Answer:</label>
                 <input type=text @bind="answerOption.Text">
             </div>
+
             <div>
                 <label for="answerOption.IsCorrect">Is Correct:</label>
                 <input type="checkbox" @bind="answerOption.IsCorrect">
             </div>
+
             <div>
                 <label for="answerOption.Feedback">Feedback:</label>
                 <input type="text" @bind="answerOption.Feedback">
             </div>
+
             <div>
                 <button @onclick="() => RemoveAnswerOption(selectedQuestionType, answerOption)" class="btn btn-outline-danger">Remove</button>
             </div> 
@@ -93,7 +96,7 @@
     
     <br/>
     <div class="form-group">
-        <label for="isRandomized">Randomize Answers:</label>
+        <label for="isRandomized">Randomize Order:</label>
         <input type="checkbox" class="form-check-input" @bind="isMCRandomized">
     </div>    
 
@@ -121,13 +124,26 @@
     }
 }
 
-<div class="form-group">
-    <label for="maxPoints">Max Points:</label>
-    <input type="number" @bind="maxPoints">
+@if (selectedQuestionType == "MultiChoice" && isMultiResponse == true)
+{
+    <div class="form-group">
+		<label for="maxPoints">Points per correct answer:</label>
+		<input type="number" @bind="maxPoints">
+    </div>
+}
+
+else
+{
+    <div class="form-group">
+        <label for="maxPoints">Max Points:</label>
+        <input type="number" @bind="maxPoints">
+    </div>
+}
+
+<div>
+    <button class="btn btn-primary" @onclick="GenerateSyntax">Generate Syntax</button>
 </div>
 
-<br/>
-<button class="btn btn-primary" @onclick="GenerateSyntax">Generate Syntax</button>
 
 @if (!string.IsNullOrEmpty(syntax))
 {
@@ -262,16 +278,16 @@
                 syntax = SyntaxGen.CreateNumerical(correctNumAnswer, margin, maxPoints);
                 break;
             case "ShortAnswer":
-                syntax = SyntaxGen.CreateShortAnswer(saAnswers, feedback, isCaseSensitive, 100, maxPoints);
+                syntax = SyntaxGen.CreateShortAnswer(saAnswers, feedback, isCaseSensitive, maxPoints);
                 break;
             case "MultiChoice":
                 if (isMultiResponse == true)
                 {
-                    syntax = SyntaxGen.CreateMultiResponse(mcAnswers, isMCRandomized, mrIsVertical, 100, maxPoints);
+                    syntax = SyntaxGen.CreateMultiResponse(mcAnswers, isMCRandomized, mrIsVertical, maxPoints);
                 }
                 else
                 {
-                    syntax = SyntaxGen.CreateMultiChoice(mcAnswers, isMCRandomized, mcIsVertical, 100, maxPoints);
+                    syntax = SyntaxGen.CreateMultiChoice(mcAnswers, isMCRandomized, mcIsVertical, maxPoints);
                 }
                 break;
             default:
