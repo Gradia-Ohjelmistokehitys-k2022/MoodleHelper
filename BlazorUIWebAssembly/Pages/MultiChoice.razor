@@ -9,35 +9,50 @@
 
 <Button To="/MoodleHelper/" Color="ButtonColor.Primary" Outline="true" Type="ButtonType.Link"> Palaa </Button>
 <h3>Monivalinta</h3>
-<ul>Yksi vai useampi valittava vastaus?</ul>
-<ul>Yksi <Switch @bind-Value="show" @onclick="fixBoxed"Label="Useampi oikein"></Switch></ul>
+<p>Yksi vai useampi valittava vastaus?</p>
+<label>Yksi</label> <label><Switch @bind-Value="show" @onclick="fixBoxed" Label="Useampi oikein"></Switch></label>
 
-<p>
-    <ul>Syötä vastaukset, ja että onko oikein vai väärin. Erottele useammat vastaukset rivinvaihdolla. Erottele onko oikein vai väärin ';' merkillä.</ul>
-    <ul>(Esim.)</ul>
-    <ul>Vastaus1;true</ul>
-    <ul>Vastaus2;false</ul>
 
-</p>
-<textarea id="multichoice" @bind="answerString" style="width: 300px;height: 300px;" />
+<div>
+    <p>Syötä vastaukset, ja että onko oikein vai väärin. Erottele useammat vastaukset rivinvaihdolla. Erottele onko oikein vai väärin ';' merkillä.
+        <ul>Esimerkki:</ul>
+		<ul>Vastaus1;true</ul>
+		<ul>Vastaus2;false</ul>
+    </p>
+</div>
 
-<Switch @bind-Value="shuffleAnswers" Label="Sekoita vastaukset?" />
+<div>
+    <textarea id="multichoice" @bind="answerString" style="width: 300px;height: 300px;" />
+</div>
 
-<ul>Vastauksen tyyppi?</ul>
-<ul>Valittu vastaustyyppi on @answerLabel</ul>
-<Dropdown>
-    <DropdownToggleButton Color="ButtonColor.Secondary">Vastauksen tyyppi</DropdownToggleButton>
-    <DropdownMenu>
-        <DropdownItem @onclick="DisableOthersThanVertical" Type="ButtonType.Link">Pysty</DropdownItem>
-        <DropdownItem @onclick="DisableOthersThanHorizontal" Type="ButtonType.Link">Vaaka</DropdownItem>
-        <DropdownItem @onclick="DisableOthersThanBoxed" Disabled="@show" Type="ButtonType.Link">Laatikko</DropdownItem>
-    </DropdownMenu>
-</Dropdown>
+<div>
+    <Switch @bind-Value="shuffleAnswers" Label="Sekoita vastaukset?" />
+</div>
 
-<ul>Syötä oikeasta vastauksesta annettava pistemäärä</ul>
+<div>
+    <label>Vastauksen tyyppi?</label>
+    <label>Valittu vastaustyyppi on @answerLabel</label>
+</div>
+
+    <Dropdown>
+        <DropdownToggleButton Color="ButtonColor.Secondary">Vastauksen tyyppi</DropdownToggleButton>
+        <DropdownMenu>
+            <DropdownItem @onclick="DisableOthersThanVertical" Type="ButtonType.Link">Pysty</DropdownItem>
+            <DropdownItem @onclick="DisableOthersThanHorizontal" Type="ButtonType.Link">Vaaka</DropdownItem>
+            <DropdownItem @onclick="DisableOthersThanBoxed" Disabled="@show" Type="ButtonType.Link">Laatikko</DropdownItem>
+        </DropdownMenu>
+    </Dropdown>
+
+
+<div>
+    <label for="pointAmount">Syötä oikeasta vastauksesta annettava pistemäärä</label>
+</div>
 <input type="number" @bind="pointAmount" style="width: 300px;" />
 
-<Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateMultiChoice">Luo syntaksi</Button>
+<br/>
+<div>
+    <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateMultiChoice">Luo syntaksi</Button>
+</div>
 
 <h3>Tulos: @MultiChoiceResult</h3>
 
@@ -45,7 +60,7 @@
 @code {
     bool shuffleAnswers;
     bool horizontalOrVertical;
-    bool verticalTrue = false;
+    bool verticalTrue = true;
     bool horizontalTrue = false;
     bool boxedTrue = false;
     private static bool? finalValue = null;

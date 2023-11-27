@@ -8,21 +8,26 @@
 <Button To="/MoodleHelper/" Color="ButtonColor.Primary" Outline="true" Type="ButtonType.Link"> Palaa </Button>
 <h3>Lyhyt Vastaus</h3>
 
-<p>
-	<ul>Syötä Vastaus/Vastaukset, ja että onko oikein vai väärin. Erottele useammat vastaukset rivinvaihdolla. Erottele, onko oikein vai väärin ';' merkillä.</ul>
-    <ul>(Esim.)</ul> 
-    <ul>Vastausmalli,true</ul>
-        <ul>Vastaus2,false</ul>
-    
-</p>
-<textarea id="shortAnswer" @bind="answerString" style="width: 300px;height: 300px;" />
-<ul>Syötä palaute</ul>
-<textarea id="shortFeedback" @bind="feedbackString" style="width: 300px;height: 150px;" />
+
+<p>Syötä Vastaus/Vastaukset, ja että onko oikein vai väärin. Erottele useammat vastaukset rivinvaihdolla. Erottele, onko oikein vai väärin ';' merkillä.</p>
+<ul>(Esim.)</ul> 
+<ul>Vastausmalli,true</ul>
+<ul>Vastaus2,false</ul>
+<div>
+    <textarea id="shortAnswer" @bind="answerString" style="width: 300px;height: 300px;" />
+</div>
+
+<div>
+    <p>Syötä palaute</p>
+    <textarea id="shortFeedback" name="shortFeedback" @bind="feedbackString" style="width: 300px;height: 150px;" />
+</div>
 <Switch @bind-Value="agree1" Label="Merkkiriippuvainen?" />
 
 <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateShort">Luo syntaksi</Button>
 
-<h3>Tulos: @shortResult</h3>
+<div>   
+    <h3>Tulos: @shortResult</h3>
+</div>
 
 
 @code {

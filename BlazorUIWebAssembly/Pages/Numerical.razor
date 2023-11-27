@@ -6,24 +6,21 @@
 <PageTitle>MOODLE GENERAATTORI</PageTitle>
 
 <Button To="/MoodleHelper/" Color="ButtonColor.Primary" Outline="true" Type="ButtonType.Link"> Palaa </Button>
+
 <h3>Numeerinen</h3>
 
-<div>
-    <label for="shortAnswer">Syötä oikea vastaus.</label>
-    <input id="shortAnswer" @bind="answerString" style="width: 300px;" />
-</div>
-
-<div>
-    <label for="marginAmount">Syötä pistemarginaali.</label>
-    <input @bind="marginAmount" style="width: 300px;" />s
-</div>
-
-<div>
-    <label for="pointAmount">Syötä Pistemäärä</label>
-    <input type="number" @bind="pointAmount" style="width: 300px;" />
-</div>
+<label for="shortAnswer">Syötä oikea vastaus.</label>
+<input id="shortAnswer" name="shortAnswer" @bind="answerString" style="width: 300px;" />
 
 
+
+<label for="marginAmount">Syötä pistemarginaali.</label>
+<input id="marginAmount" name="marginAmount" @bind="marginAmount" style="width: 300px;" />s
+
+
+
+<label for="pointAmount">Syötä Pistemäärä</label>
+<input id="pointAmount" name="pointAmount" type="number" @bind="pointAmount" style="width: 300px;" />
 
 <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateNumerical">Luo syntaksi</Button>
 
