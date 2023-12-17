@@ -21,6 +21,7 @@
 </div>
 
 @code {
+    private string site = "/";
     private Sidebar sidebar = default!;
     private IEnumerable<NavItem> navItems = default!;
 
@@ -36,10 +37,10 @@
     {
         navItems = new List<NavItem>
         {
-            new NavItem { Id = "1", Href = "/MoodleHelper/", IconName = IconName.HouseDoorFill, Text = "Etusivu", Match=NavLinkMatch.All},
-            new NavItem { Id = "2", Href = "/MoodleHelper/ShortAnswer", IconName = IconName.PlusSquareFill, Text = "Lyhyt vastaus."},
-            new NavItem { Id = "3", Href = "/MoodleHelper/Numerical", IconName = IconName.Table, Text = "Numeerinen vastaus"},
-            new NavItem { Id = "3", Href = "/MoodleHelper/MultiChoice", IconName = IconName.Table, Text = "Monivalinta"},
+            new NavItem { Id = "1", Href = site, IconName = IconName.HouseDoorFill, Text = "Etusivu", Match=NavLinkMatch.All},
+            new NavItem { Id = "2", Href = site + "/ShortAnswer", IconName = IconName.PlusSquareFill, Text = "Lyhyt vastaus."},
+            new NavItem { Id = "3", Href = site + "/Numerical", IconName = IconName.Table, Text = "Numeerinen vastaus"},
+            new NavItem { Id = "3", Href = site + "/MultiChoice", IconName = IconName.Table, Text = "Monivalinta"},
         };
 
         return navItems;
