@@ -17,7 +17,11 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '7.0'
-
+        
+    - name: Update site reference
+      run: |
+        sed -i 's|private string site = "/";|private string site = "/MoodleHelper";|' ./BlazorUIWebAssembly/Shared/MainLayout.razor
+        
     - name: Build and Publish
       run: |
         dotnet build --configuration Release
