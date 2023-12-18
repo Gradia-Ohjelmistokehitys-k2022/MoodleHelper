@@ -20,7 +20,7 @@ jobs:
         
     - name: Update site reference
       run: |
-        sed -i 's|private string site = "/";|private string site = "/MoodleHelper";|' ./BlazorUIWebAssembly/Shared/MainLayout.razor
+        sed -i 's|private string site = "/";|private string site = "/MoodleHelper/";|' ./BlazorUIWebAssembly/Shared/MainLayout.razor
         
     - name: Build and Publish
       run: |
