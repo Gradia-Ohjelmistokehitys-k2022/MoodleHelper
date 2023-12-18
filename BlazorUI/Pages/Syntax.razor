@@ -1,68 +1,66 @@
 ﻿@page "/syntaxgenerator"
 @inject ClipboardService ClipboardService
 
-<PageTitle>Syntax Generator</PageTitle>
+<PageTitle>MOODLE GENERAATTORI</PageTitle>
 <div>
-    <h3>Syntax Generator</h3>
+    <h3>Moodle generaattori</h3>
 </div>
 
 <div class="form-group">
-    <label for="questionType">Select Question Type:</label>
+    <label for="questionType">Valitse vastaustyyppi:</label>
     <select @bind="selectedQuestionType">
-        <option value="Numerical">Numerical</option>
-        <option value="ShortAnswer">Short Answer</option>
-        <option value="MultiChoice">Multiple Choice</option>
+        <option value="Numerical">Numeerinen</option>
+        <option value="ShortAnswer">Lyhytvastaus</option>
+        <option value="MultiChoice">Monivalinta</option>
     </select>
 </div>
 
 @if (selectedQuestionType == "Numerical")
 {
-    <form>
-        <div class="form-group">
-            <label class="form-label" for="correctNumeric">Correct Answer:</label>
-            <input id="correctNumeric" type="number" @bind="correctNumAnswer" step="any">
-        </div>
-        <div class="form-group">
-            <label for="margin">Margin of Error:</label>
-            <input type="number" @bind="margin" step="any">
-        </div>
-    </form>
+    <div class="form-group">
+        <label for="correctAnswer">Oikea vastaus:</label>
+        <input type="number" @bind="correctNumAnswer" step="any">
+    </div>
+    <div class="form-group">
+        <label for="margin">Toleranssi:</label>
+        <input type="number" @bind="margin" step="any">
+    </div>
 }
 
 @if (selectedQuestionType == "ShortAnswer")
 {
     <div class="form-group">
-        <button @onclick="() => AddAnswerOption(selectedQuestionType)" class="btn btn-primary">Add answer option</button>
+        <button @onclick="() => AddAnswerOption(selectedQuestionType)" class="btn btn-primary">Lisää vastausvaihtoehto</button>
     </div>
 
     @foreach (var answerOption in saAnswers)
     {
         <br />
         <div>
-            <label for="answerOption.Text">Answer:</label>
+            <label for="answerOption.Text">Vastaus:</label>
             <input type=text @bind="answerOption.Text">
         </div>
         <div>
-            <label for="answerOption.IsCorrect">Is Correct:</label>
+            <label for="answerOption.IsCorrect">Onko oikein:</label>
             <input type="checkbox" @bind="answerOption.IsCorrect">
         </div>
         <div>
-            <label for="answerOption.Feedback">Feedback for this answer:</label>
+            <label for="answerOption.Feedback">Palaute tästä vastauksesta:</label>
             <input type="text" @bind="answerOption.Feedback">
         </div>
         <div>
-            <button @onclick="() => RemoveAnswerOption(selectedQuestionType, answerOption)" class="btn btn-outline-danger">Remove</button>
+            <button @onclick="() => RemoveAnswerOption(selectedQuestionType, answerOption)" class="btn btn-outline-danger">Poista</button>
         </div>
     }
 
     <br />
     <div class="form-group">
-        <label for="isCaseSensitive">Is Case Sensitive:</label>
+        <label for="isCaseSensitive">Onko merkkiriippuvainen:</label>
         <input type="checkbox" class="form-check-input" @bind="isCaseSensitive">
     </div>
 
     <div class="form-group">
-        <label for="feedback">Feedback for all wrong answers:</label>
+        <label for="feedback">Yleinen palaute väärästä vastauksesta:</label>
         <input type="text" @bind="feedback">
     </div>
 }
@@ -70,57 +68,57 @@
 @if (selectedQuestionType == "MultiChoice")
 {
     <div class="form-group">
-        <button @onclick="() => AddAnswerOption(selectedQuestionType)" class="btn btn-primary">Add answer option</button>
+        <button @onclick="() => AddAnswerOption(selectedQuestionType)" class="btn btn-primary">Lisää vastausvaihtoehto</button>
     </div>
 
         @foreach (var answerOption in mcAnswers)
         {
             <br />
             <div>
-                <label for="answerOption.Text">Answer:</label>
+                <label for="answerOption.Text">Vastaus:</label>
                 <input type=text @bind="answerOption.Text">
             </div>
 
             <div>
-                <label for="answerOption.IsCorrect">Is Correct:</label>
+                <label for="answerOption.IsCorrect">Onko oikein:</label>
                 <input type="checkbox" @bind="answerOption.IsCorrect">
             </div>
 
             <div>
-                <label for="answerOption.Feedback">Feedback:</label>
+                <label for="answerOption.Feedback">Palaute tästä vastauksesta:</label>
                 <input type="text" @bind="answerOption.Feedback">
             </div>
 
             <div>
-                <button @onclick="() => RemoveAnswerOption(selectedQuestionType, answerOption)" class="btn btn-outline-danger">Remove</button>
+                <button @onclick="() => RemoveAnswerOption(selectedQuestionType, answerOption)" class="btn btn-outline-danger">Poista</button>
             </div> 
         }   
     
     <br/>
     <div class="form-group">
-        <label for="isRandomized">Randomize Order:</label>
+        <label for="isRandomized">Satunnainen järjestys:</label>
         <input type="checkbox" class="form-check-input" @bind="isMCRandomized">
     </div>    
 
     <div>
-        <label for="isMultiResponse">Can choose multiple answers:</label>
+        <label for="isMultiResponse">Voi valita monta vastausta:</label>
         <input type="checkbox" @bind="isMultiResponse" class="form-check-input" @onclick="() => isMultiResponseClick()">
     </div>
 
     <div class="form-group">
-        <label for="verChecked">Vertical Presentation:</label>
+        <label for="verChecked">Vaihtoehdot pystyyn:</label>
         <input type="checkbox" @bind="mcVerChecked" class="form-check-input" @onclick="() => mcPresentationClick(1)">
     </div>
 
     <div class="form-group">
-        <label for="horChecked">Horizontal Presentation:</label>
+        <label for="horChecked">Vaihtoehdot vaakaan:</label>
         <input type="checkbox" @bind="msHorChecked" class="form-check-input" @onclick="() => mcPresentationClick(2)">
     </div>
 
     @if (isMultiResponse == false)
     {
         <div class="form-group">
-            <label for="droChecked">Dropdown Presentation:</label>
+            <label for="droChecked">Vaihtoehdot laatikossa:</label>
             <input type="checkbox" @bind="msDroChecked" class="form-check-input" @onclick="() => mcPresentationClick(3)">
         </div>
     }
@@ -129,7 +127,7 @@
 @if (selectedQuestionType == "MultiChoice" && isMultiResponse == true)
 {
     <div class="form-group">
-		<label for="maxPoints">Points per correct answer:</label>
+		<label for="maxPoints">Oikean vastauksen pisteet:</label>
 		<input type="number" @bind="maxPoints">
     </div>
 }
@@ -137,13 +135,13 @@
 else
 {
     <div class="form-group">
-        <label for="maxPoints">Max Points:</label>
+        <label for="maxPoints">Maksimipisteet:</label>
         <input type="number" @bind="maxPoints">
     </div>
 }
 
 <div>
-    <button class="btn btn-primary" @onclick="GenerateSyntax">Generate Syntax</button>
+    <button class="btn btn-primary" @onclick="GenerateSyntax">Luo syntaksi</button>
 </div>
 
 
@@ -151,7 +149,7 @@ else
 {
     <div class="alert alert-success mt-3">
         Generated Syntax: @syntax
-        <button class="btn btn-outline-success" @onclick="() => CopyToClipboard(syntax)">Copy to Clipboard</button>
+        <button class="btn btn-outline-success" @onclick="() => CopyToClipboard(syntax)">Kopioi</button>
         <Popup @ref="popup" />
     </div>
 }

@@ -149,7 +149,7 @@ else
 {
     <div class="alert alert-success mt-3">
         Generated Syntax: @syntax
-        <button class="btn btn-outline-success" @onclick="() => CopyToClipboard(syntax)">Kopioi</button>
+        <button class="btn btn-outline-success" @onclick="() => ClipboardService.CopyToClipboard(syntax)">Kopioi</button>
         <Popup @ref="popup" />
     </div>
 }
@@ -178,19 +178,6 @@ else
     private bool mcVerChecked = false;
     private bool msHorChecked = false;
     private bool msDroChecked = true;
-
-
-    private async Task CopyToClipboard(string text)
-    {
-        try
-        {
-            await ClipboardService.WriteTextAsync(text);
-        }
-        catch
-        {
-            popup.Show("Failed to copy to clipboard", "Error");
-        }
-    }
 
     private void AddAnswerOption(string listName)
     {
