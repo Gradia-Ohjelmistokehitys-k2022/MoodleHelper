@@ -4,6 +4,8 @@ namespace SyntaxGenerator
 {
     public static class SyntaxGen
     {
+        // Link to the Moodle documentation (in Finnish): https://docs.moodle.org/3x/fi/Aukkotehtävät
+
         /// <summary>
         /// Creates the syntax for a NUMERICAL question type
         /// </summary>
@@ -15,6 +17,7 @@ namespace SyntaxGenerator
         {
             string question = "{";
 
+            // Check if feedback is empty and then create the question
             if (string.IsNullOrWhiteSpace(feedback))
             {
                 question += $"{maxPoints}:NUMERICAL:%100%{correctAnswer}:{margin}";
@@ -40,6 +43,7 @@ namespace SyntaxGenerator
             string question = "{";
             question += $"{maxPoints}:";
             
+            // Add the question type to the question
             if (isCaseSensitive == true)
             {
                 question += "SHORTANSWER_C:";
@@ -50,12 +54,15 @@ namespace SyntaxGenerator
                 question += "SHORTANSWER:";
             }
 
+            // Go through all the answers (use for instead of foreach to not add ~ to the last answer option)
             for (int i = 0; i < answers.Count; i++)
             {
                 AnswerOption answer = answers[i];
 
+                // If current answer is correct
                 if (answer.IsCorrect == true)
                 {
+                    // If the feedback is empty
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
                         question += $"%100%{answer.Text}";
@@ -69,6 +76,7 @@ namespace SyntaxGenerator
 
                 else
                 {
+                    // If the feedback is empty
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
                         question += $"{answer.Text}";
@@ -80,6 +88,7 @@ namespace SyntaxGenerator
                     }
                 }
 
+                // Add a wavy line for the next answer option if not the last answer
                 if ((i + 1) != answers.Count)
                 {
                     question += "~";
@@ -107,6 +116,7 @@ namespace SyntaxGenerator
             string question = "{";
             question += $"{maxPoints}:";
             
+            // Add the question type to the question
             if (isRandomized == true)
             {
                 question += isVertical switch
@@ -127,12 +137,15 @@ namespace SyntaxGenerator
                 };
             }
 
+            // Go through all the answers (use for instead of foreach to not add ~ to the last answer option)
             for (int i = 0; i < answers.Count; i++)
             {
                 AnswerOption answer = answers[i];
 
+                // If current answer is correct
                 if (answer.IsCorrect == true)
                 {
+                    // If the feedback is empty
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
                         question += $"%100%{answer.Text}";
@@ -146,6 +159,7 @@ namespace SyntaxGenerator
                 
                 else
                 {
+                    // If the feedback is empty
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
                         question += $"{answer.Text}";
@@ -179,10 +193,13 @@ namespace SyntaxGenerator
         {
             string question = "{";
 
+            // Calculate the total amount of points so we can calculate the percentage of points per answer
             int totalPoints = answers.Count(answer => answer.IsCorrect) * pointsPerAnswer;
 
+            // Add the total amount of points to the question
             question += $"{totalPoints}:";
 
+            // Add the question type to the question
             if (isRandomized == true)
             {
                 switch (isVertical)
@@ -211,14 +228,17 @@ namespace SyntaxGenerator
                 }
             }
 
+            // Calculate the percentage of points per answer
             double percentPerQuestion = Math.Round((double)pointsPerAnswer / totalPoints * 100);
 
             for (int i = 0; i < answers.Count; i++)
             {
                 AnswerOption answer = answers[i];
 
+                // If current answer is correct
                 if (answer.IsCorrect == true)
                 {
+                    // If the feedback is empty
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
                         question += $"%{percentPerQuestion}%{answer.Text}";
@@ -232,6 +252,7 @@ namespace SyntaxGenerator
 
                 else
                 {
+                    // If the feedback is empty
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
                         question += $"{answer.Text}";
@@ -243,6 +264,7 @@ namespace SyntaxGenerator
                     }
                 }
 
+                // Add a wavy line for the next answer option if not the last answer
                 if ((i + 1) != answers.Count)
                 {
                     question += "~";
