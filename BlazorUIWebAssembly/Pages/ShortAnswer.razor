@@ -20,6 +20,12 @@
     <p>Syötä palaute</p>
     <textarea id="shortFeedback" name="shortFeedback" @bind="feedbackString" style="width: 300px;height: 150px;" />
 </div>
+
+<div>
+	<label for="pointAmount">Syötä pistemarginaali.</label>
+    <input type="number" id="pointAmount" name="pointAmount" @bind="pointAmount" style="width: 300px;" />
+</div>
+
 <Switch @bind-Value="agree1" Label="Merkkiriippuvainen?" />
 
 <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateShort">Luo syntaksi</Button>
@@ -38,6 +44,7 @@
     private static string feedbackString{ get; set; }
     string previous = "";
     List<AnswerOption> AnswersList = new List<AnswerOption>();
+    private int pointAmount = 1;
 
     private void GenerateShort()
     {
@@ -61,7 +68,7 @@
             }
         }
         //uses the generator from SyntaxGen.cs, which is located in the "code" folder of the project
-            shortResult = SyntaxGen.CreateShortAnswer(AnswersList,feedbackString,agree1,100);
+            shortResult = SyntaxGen.CreateShortAnswer(AnswersList,feedbackString,agree1,pointAmount);
 
     }
 }
