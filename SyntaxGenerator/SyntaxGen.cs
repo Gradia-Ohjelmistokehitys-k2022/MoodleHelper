@@ -11,10 +11,20 @@ namespace SyntaxGenerator
         /// <param name="margin">The margin of error</param>
         /// <param name="maxPoints">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        public static string CreateNumerical(decimal correctAnswer, decimal margin = 0, int maxPoints = 1)
+        public static string CreateNumerical(decimal correctAnswer, string feedback, decimal margin = 0, int maxPoints = 1)
         {
             string question = "{";
-            question += $"{maxPoints}:NUMERICAL:={correctAnswer}:{margin}";
+
+            if (string.IsNullOrWhiteSpace(feedback))
+            {
+                question += $"{maxPoints}:NUMERICAL:%100%{correctAnswer}:{margin}";
+            }
+
+            else
+            {
+                question += $"{maxPoints}:NUMERICAL:%100%{correctAnswer}:{margin}#{feedback}";
+            }
+
             return question += "}";
         }
 

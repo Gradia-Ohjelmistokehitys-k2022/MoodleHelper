@@ -19,8 +19,13 @@
 </div>
 
 <div>
-    <label for="pointAmount">Syötä Pistemäärä</label>
+    <label for="pointAmount">Syötä pistemäärä</label>
     <input id="pointAmount" name="pointAmount" type="number" @bind="pointAmount" style="width: 300px;" />
+</div>
+
+<div>
+    <p>Syötä palaute</p>
+    <textarea id="feedbackString" name="feedbackString" @bind="feedbackString" style="width: 300px;height: 150px;" />
 </div>
 
 <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateNumerical">Luo syntaksi</Button>
@@ -38,13 +43,14 @@
     private static string pointAmount { get; set; }
     private static decimal decimalAnswer;
     string previous = "";
+    string feedbackString = "";
     List<AnswerOption> AnswersList = new List<AnswerOption>();
 
 
     private void GenerateNumerical()
     {
-        //uses the generator from SyntaxGen.cs, which is located in the "code" folder of the project
-        numericalResult = CreateNumerical(Convert.ToDecimal(answerString), Convert.ToDecimal(marginAmount), Convert.ToInt32(pointAmount));
+        //uses the generator from SyntaxGen.cs, which is located in the "SyntaxGenerator" project
+        numericalResult = CreateNumerical(Convert.ToDecimal(answerString), feedbackString, Convert.ToDecimal(marginAmount), Convert.ToInt32(pointAmount));
 
     }
 }
