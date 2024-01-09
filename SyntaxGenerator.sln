@@ -5,10 +5,6 @@ VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SyntaxGenerator", "SyntaxGenerator\SyntaxGenerator.csproj", "{3B51C12F-F71A-489E-A4BA-D86BFC4CEBA4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorUITemp", "BlazorUI\BlazorUITemp.csproj", "{9048A269-E7C5-4AD9-9D0E-C475B25D0C19}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "blazorMoodleGen", "blazorMoodleGen\blazorMoodleGen.csproj", "{BB1DA453-7CA9-4403-B7DE-94D59342D137}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorUIWebAssembly", "BlazorUIWebAssembly\BlazorUIWebAssembly.csproj", "{4085CB24-AC15-433A-8D24-6E769A2CA168}"
 EndProject
 Global
