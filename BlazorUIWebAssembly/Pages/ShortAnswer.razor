@@ -13,43 +13,48 @@
 <br> *@
 
 Num items:
-<input type="number" value="@N" @oninput="onchange_n">
+<input type="number" value="@itemCount" @oninput="onchange_n">
 <br>
 
-@foreach (var i in testlist)
+@for (int i = 0; i < itemCount; i++)
 {
-    var ii = i;
-    <input type="checkbox" @bind-value="@MyList[i]" @oninput="StateHasChanged">
-    <input type="text" @bind-value="@MyList2[i]" @oninput="StateHasChanged">
-    <input type="text" @bind-value="@MyList3[i]" @oninput="StateHasChanged">
-    <br>
+    var currentItem = questionOptions[i];
+    <input type="checkbox" @bind="@currentItem.IsChecked" />
+    <input type="text" @bind="@currentItem.Answer" />
+    <input type="text" @bind="@currentItem.Feedback" />
+    <br />
+    
+    <br />
 }
 
 @code
 {
-    private int N = 0, total = 0;
+    private int itemCount = 0, total = 0;
     bool test = false;
-    private List<int> testlist = new List<int>();
-    private List<bool> MyList = new List<bool>();
-    private List<string> MyList2 = new List<string>();
-    private List<string> MyList3 = new List<string>();
+    // private List<int> testlist = new List<int>();
+    // private List<bool> MyList = new List<bool>();
+    // private List<string> MyList2 = new List<string>();
+    // private List<string> MyList3 = new List<string>();
+
+    private List<QuestionOption> questionOptions = new List<QuestionOption>();
+    
     private void onchange_n(ChangeEventArgs e)
     {
-        N = 0;
-        if (Int32.TryParse(e.Value.ToString(), out int n)) N = n;
-        testlist.Clear();
-        testlist.AddRange(Enumerable.Range(0, N).Select(_ => 0));
-
-        MyList.Clear();
-        MyList2.Clear();
-        MyList3.Clear();
-        foreach (int i in testlist)
+        if (Int32.TryParse(e.Value.ToString(), out int items))
         {
-            MyList.Add(false);
-            MyList2.Add("Vastaus");
-            MyList3.Add("Palaute");
+            itemCount = items;
+            while (questionOptions.Count < itemCount)
+            {
+                questionOptions.Add(new QuestionOption { IsChecked = false, Answer = "Vastaus", Feedback = "Palaute" });
+            }
+
+  
+            while (questionOptions.Count > itemCount)
+            {
+                questionOptions.RemoveAt(questionOptions.Count - 1);
+            }
+            StateHasChanged();
         }
-        StateHasChanged();
     }
 }
 
@@ -84,9 +89,9 @@ Num items:
     private void GenerateShort()
     {
         AnswersList.Clear();
-        foreach (int i in testlist)
+        foreach (var option in questionOptions)
         {
-            AnswersList.Add(new AnswerOption(MyList2[i], MyList[i], MyList3[i]));
+            AnswersList.Add(new AnswerOption(option.Answer, option.IsChecked, option.Feedback));
         }
 
         // foreach (string line in answerString.Split('\n'))
@@ -110,4 +115,12 @@ Num items:
         //uses the generator from SyntaxGen.cs, which is located in the "SyntaxGenerator" project
         shortResult = SyntaxGen.CreateShortAnswer(AnswersList, null, caseSensitiveCheck);
     }
+
+    public class QuestionOption
+    {
+        public bool IsChecked { get; set; }
+        public string Answer { get; set; }
+        public string Feedback { get; set; }
+    }
+
 }
