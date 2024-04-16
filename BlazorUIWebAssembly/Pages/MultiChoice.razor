@@ -11,15 +11,21 @@
 
 
 <div>
-    <p>Syötä vastaukset, ja että onko oikein vai väärin. Erottele useammat vastaukset rivinvaihdolla. Erottele onko oikein vai väärin ';' merkillä.
-        <ul>Esimerkki:</ul>
-		<ul>Vastaus1;true</ul>
-		<ul>Vastaus2;false</ul>
+    <p>Syötä vastaukset, ja että onko oikein vai väärin. Erottele useammat vastaukset rivinvaihdolla. Jos oikeita vastauksia on enemmän kuin yksi, pisteet tulevat jokaisesta oikeista vastauksesta.
     </p>
 </div>
 
 <div>
-    <textarea id="multichoice" @bind="answerString" style="width: 300px;height: 300px;" />
+    <input type="checkbox" @bind="answercheckbox1"><textarea id="shortAnswer" @bind="answerString1" style="width: 300px;" /><input type="number" @bind="pointAmount1" style="width: 50px;" /><textarea @bind="feedbackString1" style="width: 100px;" />
+</div>
+<div>
+    <input type="checkbox" @bind="answercheckbox2"><textarea id="shortAnswer" @bind="answerString2" style="width: 300px;" /><input type="number" @bind="pointAmount2" style="width: 50px;" /><textarea @bind="feedbackString2" style="width: 100px;" />
+</div>
+<div>
+    <input type="checkbox" @bind="answercheckbox3"><textarea id="shortAnswer" @bind="answerString3" style="width: 300px;" /><input type="number" @bind="pointAmount3" style="width: 50px;" /><textarea @bind="feedbackString3" style="width: 100px;" />
+</div>
+<div>
+    <input type="checkbox" @bind="answercheckbox4"><textarea id="shortAnswer" @bind="answerString4" style="width: 300px;" /><input type="number" @bind="pointAmount4" style="width: 50px;" /><textarea @bind="feedbackString4" style="width: 100px;" />
 </div>
 
 <div>
@@ -27,8 +33,7 @@
 </div>
 
 <div>
-    <label>Vastauksen tyyppi?</label>
-    <label>Valittu vastaustyyppi on @answerLabel</label>
+    <label>Vastauksen tyyppi? @answerLabel</label>
 </div>
 
     <Dropdown>
@@ -42,12 +47,6 @@
 
 
 <div>
-    <label for="pointAmount">Syötä oikeasta vastauksesta annettava pistemäärä</label>
-</div>
-<input type="number" @bind="pointAmount" style="width: 300px;" />
-
-<br/>
-<div>
     <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateMultiChoice">Luo syntaksi</Button>
 </div>
 
@@ -55,6 +54,26 @@
 
 
 @code {
+    bool answercheckbox1;
+    bool answercheckbox2;
+    bool answercheckbox3;
+    bool answercheckbox4;
+
+    private static string answerString1 { get; set; }
+    private static string answerString2 { get; set; }
+    private static string answerString3 { get; set; }
+    private static string answerString4 { get; set; }
+
+    private static string pointAmount1 { get; set; }
+    private static string pointAmount2 { get; set; }
+    private static string pointAmount3 { get; set; }
+    private static string pointAmount4 { get; set; }
+
+    private static string feedbackString1 { get; set; }
+    private static string feedbackString2 { get; set; }
+    private static string feedbackString3 { get; set; }
+    private static string feedbackString4 { get; set; }
+
     bool shuffleAnswers;
     bool horizontalOrVertical;
     bool verticalTrue = true;
@@ -65,8 +84,6 @@
     private bool enabled = false;
     private bool disabled = true;
     private string MultiChoiceResult = "";
-    private static string answerString { get; set; }
-    private static string pointAmount{ get; set; }
     private static string previous = "";
     private string answerLabel = "";
     List<AnswerOption> MultiChoiceList = new List<AnswerOption>();
@@ -127,34 +144,53 @@
     private void GenerateMultiChoice()
     {
         MultiChoiceList.Clear();
-        foreach (string line in answerString.Split('\n'))
+        if (answerString1 != "")
         {
-            foreach (string correct in line.Split(";"))
-            {
-                if (correct == "true")
-                {
-                    MultiChoiceList.Add(new AnswerOption(previous, Convert.ToBoolean(correct)));
-                }
-                if (correct == "false")
-                {
-                    MultiChoiceList.Add(new AnswerOption(previous, Convert.ToBoolean(correct)));
-                }
-                if (correct != "false")
-                {
-                    previous = correct;
-                }
-            }
+            MultiChoiceList.Add(new AnswerOption(answerString1, answercheckbox1, feedbackString1));
         }
+        if (answerString2 != "")
+        {
+            MultiChoiceList.Add(new AnswerOption(answerString2, answercheckbox2, feedbackString2));
+        }
+        if (answerString3 != "")
+        {
+            MultiChoiceList.Add(new AnswerOption(answerString3, answercheckbox3, feedbackString3));
+        }
+        if (answerString4 != "")
+        {
+            MultiChoiceList.Add(new AnswerOption(answerString4, answercheckbox4, feedbackString4)); 
+        }
+
+        // foreach (string line in answerString.Split('\n'))
+        // {
+        //     foreach (string correct in line.Split(";"))
+        //     {
+        //         if (correct == "true")
+        //         {
+        //             MultiChoiceList.Add(new AnswerOption(previous, Convert.ToBoolean(correct)));
+        //         }
+        //         if (correct == "false")
+        //         {
+        //             MultiChoiceList.Add(new AnswerOption(previous, Convert.ToBoolean(correct)));
+        //         }
+        //         if (correct != "false")
+        //         {
+        //             previous = correct;
+        //         }
+        //     }
+        // }
+        
+
         if (show == false)
         {
-            MultiChoiceResult = CreateMultiChoice(MultiChoiceList, shuffleAnswers, finalValue, Int32.Parse(pointAmount));
+            MultiChoiceResult = CreateMultiChoice(MultiChoiceList, shuffleAnswers, finalValue/* , Int32.Parse(pointAmount) */);
         }
         else
         {
             if (show == true)
             {
                 finalValueNotNull = finalValue.HasValue ? finalValue.Value : false;
-                MultiChoiceResult = CreateMultiResponse(MultiChoiceList, shuffleAnswers, finalValueNotNull, Int32.Parse(pointAmount));
+                MultiChoiceResult = CreateMultiResponse(MultiChoiceList, shuffleAnswers, finalValueNotNull/* , Int32.Parse(pointAmount) */);
             }
         }
     }

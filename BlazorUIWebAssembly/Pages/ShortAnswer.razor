@@ -1,32 +1,66 @@
 ﻿@page "/ShortAnswer"
 @using static SyntaxGenerator.SyntaxGen
 @using SyntaxGenerator.Models
-@inject IJSRuntime JSRuntime
+
 
 <PageTitle>Lyhyt vastaus | MOODLE GENERAATTORI</PageTitle>
 
 <h3>LyhytVastaus</h3>
 
 
-<p>Syötä Vastaus/Vastaukset, ja että onko oikein vai väärin. Erottele useammat vastaukset rivinvaihdolla. Erottele, onko oikein vai väärin ';' merkillä.</p>
-<ul>(Esim.)</ul> 
-<ul>Vastausmalli;true</ul>
-<ul>Vastaus2;false</ul>
-<div>
-    <textarea id="shortAnswer" @bind="answerString" style="width: 300px;height: 300px;" />
-</div>
+@* Mahdollisten vaihtoehtojen määrä:
+<input type="number" value="@N" @oninput="onchange_n" min="1" max="10">
+<br> *@
 
-<div>
-    <p>Syötä palaute</p>
-    <textarea id="shortFeedback" name="shortFeedback" @bind="feedbackString" style="width: 300px;height: 150px;" />
-</div>
+Num items:
+<input type="number" value="@N" @oninput="onchange_n">
+<br>
 
-<div>
-	<label for="pointAmount">Syötä pistemarginaali.</label>
-    <input type="number" id="pointAmount" name="pointAmount" @bind="pointAmount" style="width: 300px;" />
-</div>
+@foreach (var i in testlist)
+{
+    var ii = i;
+    <input type="checkbox" @bind-value="@MyList[i]" @oninput="StateHasChanged">
+    <input type="text" @bind-value="@MyList2[i]" @oninput="StateHasChanged">
+    <input type="text" @bind-value="@MyList3[i]" @oninput="StateHasChanged">
+    <br>
+}
 
-<Switch @bind-Value="agree1" Label="Merkkiriippuvainen?" />
+@code
+{
+    private int N = 0, total = 0;
+    bool test = false;
+    private List<int> testlist = new List<int>();
+    private List<bool> MyList = new List<bool>();
+    private List<string> MyList2 = new List<string>();
+    private List<string> MyList3 = new List<string>();
+    private void onchange_n(ChangeEventArgs e)
+    {
+        N = 0;
+        if (Int32.TryParse(e.Value.ToString(), out int n)) N = n;
+        testlist.Clear();
+        testlist.AddRange(Enumerable.Range(0, N).Select(_ => 0));
+
+        MyList.Clear();
+        MyList2.Clear();
+        MyList3.Clear();
+        foreach (int i in testlist)
+        {
+            MyList.Add(false);
+            MyList2.Add("Vastaus");
+            MyList3.Add("Palaute");
+        }
+        StateHasChanged();
+    }
+}
+
+@* <p>Syötä Vastaus/Vastaukset. Jos vaihtoehtoja ei ole ihan neljää, jätä loput vastauskentät tyhjiksi. Muista merkitä rastilla onko oikein vai väärin.</p>
+<div>
+    <input type="checkbox" @bind="answercheckbox1"><textarea id="shortAnswer" @bind="answerString1" style="width: 300px;" />
+    <input type="number" @bind="pointAmount1" style="width: 50px;" /> <textarea @bind="feedbackString1" style="width: 100px;" />
+</div> *@
+
+
+<Switch @bind-Value="caseSensitiveCheck" Label="Merkkiriippuvainen?" />
 
 <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateShort">Luo syntaksi</Button>
 
@@ -35,40 +69,45 @@
 </div>
 
 
+
 @code {
-    bool agree1;
+
+    bool caseSensitiveCheck;
+    bool disabledCopy =true;
     private bool enabled = false;
     private bool disabled = true;
     private string shortResult = "";
-    private static string answerString { get; set; }
-    private static string feedbackString{ get; set; }
     string previous = "";
     List<AnswerOption> AnswersList = new List<AnswerOption>();
-    private int pointAmount = 1;
+
 
     private void GenerateShort()
     {
         AnswersList.Clear();
-        foreach (string line in answerString.Split('\n'))
+        foreach (int i in testlist)
         {
-            foreach (string correct in line.Split(";"))
-            {
-                if (correct == "true")
-                {
-                    AnswersList.Add(new AnswerOption(previous, Convert.ToBoolean(correct)));
-                }
-                if (correct == "false")
-                {
-                    AnswersList.Add(new AnswerOption(previous, Convert.ToBoolean(correct)));
-                }
-                if (correct != "false")
-                {
-                    previous = correct;                    
-                }
-            }
+            AnswersList.Add(new AnswerOption(MyList2[i], MyList[i], MyList3[i]));
         }
-        //uses the generator from SyntaxGen.cs, which is located in the "SyntaxGenerator" project
-        shortResult = SyntaxGen.CreateShortAnswer(AnswersList, feedbackString, agree1, pointAmount);
 
+        // foreach (string line in answerString.Split('\n'))
+        // {
+        //     foreach (string correct in line.Split(";"))
+        //     {
+        //         if (correct == "true")
+        //         {
+        //             AnswersList.Add(new AnswerOption(previous, Convert.ToBoolean(correct)));
+        //         }
+        //         if (correct == "false")
+        //         {
+        //             AnswersList.Add(new AnswerOption(previous, Convert.ToBoolean(correct)));
+        //         }
+        //         if (correct != "false")
+        //         {
+        //             previous = correct;                    
+        //         }
+        //     }
+        // }
+        //uses the generator from SyntaxGen.cs, which is located in the "SyntaxGenerator" project
+        shortResult = SyntaxGen.CreateShortAnswer(AnswersList, null, caseSensitiveCheck);
     }
 }
