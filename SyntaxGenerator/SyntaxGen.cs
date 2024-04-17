@@ -29,12 +29,12 @@ namespace SyntaxGenerator
                     // If the feedback is empty
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
-                        question += $"%{answer.Points}%{answer.Text}:{margin}";
+                        question += $"%{answer.PointsPercent}%{answer.Text}:{margin}";
                     }
 
                     else
                     {
-                        question += $"%{answer.Points}%{answer.Text}:{margin}#{answer.Feedback}";
+                        question += $"%{answer.PointsPercent}%{answer.Text}:{margin}#{answer.Feedback}";
                     }
                 }
 
@@ -43,12 +43,12 @@ namespace SyntaxGenerator
                     // If the feedback is empty
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
-                        question += $"%{answer.Points}%{answer.Text}:{margin}";
+                        question += $"%{answer.PointsPercent}%{answer.Text}:{margin}";
                     }
 
                     else
                     {
-                        question += $"%{answer.Points}%{answer.Text}:{margin}#{answer.Feedback}";
+                        question += $"%{answer.PointsPercent}%{answer.Text}:{margin}#{answer.Feedback}";
                     }
                 }
 
@@ -101,12 +101,12 @@ namespace SyntaxGenerator
                     // If the feedback is empty
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
-                        question += $"%{answer.Points}%{answer.Text}";
+                        question += $"%{answer.PointsPercent}%{answer.Text}";
                     }
 
                     else
                     {
-                        question += $"%{answer.Points}%{answer.Text}#{answer.Feedback}";
+                        question += $"%{answer.PointsPercent}%{answer.Text}#{answer.Feedback}";
                     }
                 }
 
@@ -184,12 +184,12 @@ namespace SyntaxGenerator
                     // If the feedback is empty
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
-                        question += $"%{answer.Points}%{answer.Text}";
+                        question += $"%{answer.PointsPercent}%{answer.Text}";
                     }
 
                     else
                     {
-                        question += $"%{answer.Points}%{answer.Text}#{answer.Feedback}";
+                        question += $"%{answer.PointsPercent}%{answer.Text}#{answer.Feedback}";
                     }
                 }
                 
@@ -270,12 +270,12 @@ namespace SyntaxGenerator
                     // If the feedback is empty
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
-                        question += $"%{answer.Points}%{answer.Text}";
+                        question += $"%{answer.PointsPercent}%{answer.Text}";
                     }
 
                     else
                     {
-                        question += $"%{answer.Points}%{answer.Text}#{answer.Feedback}";
+                        question += $"%{answer.PointsPercent}%{answer.Text}#{answer.Feedback}";
                     }
                 }
 

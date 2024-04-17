@@ -2,6 +2,7 @@
 @using static SyntaxGenerator.SyntaxGen
 @using SyntaxGenerator.Models
 @inject IJSRuntime JSRuntime
+@inject ClipboardService ClipboardService
 
 <PageTitle>Monivalinta | MOODLE GENERAATTORI</PageTitle>
 
@@ -50,8 +51,13 @@
     <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateMultiChoice">Luo syntaksi</Button>
 </div>
 
-<h3>Tulos: @MultiChoiceResult</h3>
 
+
+<h3>Tulos: @MultiChoiceResult</h3>
+@if (!string.IsNullOrWhiteSpace(MultiChoiceResult))
+{
+    <button @onclick="CopyToClipboard">Kopioi</button>
+}
 
 @code {
     bool answercheckbox1;
@@ -192,6 +198,19 @@
                 finalValueNotNull = finalValue.HasValue ? finalValue.Value : false;
                 MultiChoiceResult = CreateMultiResponse(MultiChoiceList, shuffleAnswers, finalValueNotNull/* , Int32.Parse(pointAmount) */);
             }
+        }
+    }
+
+    async Task CopyToClipboard()
+    {
+        // Writing to the clipboard may be denied, so you must handle the exception
+        try
+        {
+            await ClipboardService.WriteTextAsync(MultiChoiceResult);
+        }
+        catch
+        {
+            Console.WriteLine("Cannot write text to clipboard");
         }
     }
 }
