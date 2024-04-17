@@ -7,6 +7,10 @@
 
 
 <h3>Numeerinen</h3>
+<div>
+	<label for="pointAmount">Syötä pistemäärä</label>
+	<input id="pointAmount" name="pointAmount" type="number" @bind="pointAmount" style="width: 300px;" />
+</div>
 
 <div>
     <label for="shortAnswer">Syötä oikea vastaus.</label>
@@ -14,14 +18,11 @@
 </div>
 
 <div>
-    <label for="marginAmount">Syötä marginaali.</label>
+    <label for="marginAmount">Syötä prosentti.</label>
     <input id="marginAmount" name="marginAmount" @bind="marginAmount" style="width: 300px;" />
 </div>
 
-<div>
-    <label for="pointAmount">Syötä pistemäärä</label>
-    <input id="pointAmount" name="pointAmount" type="number" @bind="pointAmount" style="width: 300px;" />
-</div>
+
 
 <div>
     <p>Syötä palaute</p>

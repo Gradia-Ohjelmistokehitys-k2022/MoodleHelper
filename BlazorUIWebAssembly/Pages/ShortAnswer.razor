@@ -16,12 +16,12 @@ Num items:
 <input type="number" value="@N" @oninput="onchange_n">
 <br>
 
+@* Issue over here! *@
 @foreach (var i in testlist)
 {
-    var ii = i;
-    <input type="checkbox" @bind-value="@MyList[i]" @oninput="StateHasChanged">
-    <input type="text" @bind-value="@MyList2[i]" @oninput="StateHasChanged">
-    <input type="text" @bind-value="@MyList3[i]" @oninput="StateHasChanged">
+    <input type="checkbox" @bind-value="@CheckboxList[i]" @oninput="StateHasChanged">
+    <input type="text" @bind-value="@Answers[i]" @oninput="StateHasChanged">
+    <input type="text" @bind="@Feedback[i]">
     <br>
 }
 
@@ -30,9 +30,9 @@ Num items:
     private int N = 0, total = 0;
     bool test = false;
     private List<int> testlist = new List<int>();
-    private List<bool> MyList = new List<bool>();
-    private List<string> MyList2 = new List<string>();
-    private List<string> MyList3 = new List<string>();
+    private List<bool> CheckboxList = new List<bool>();
+    private List<string> Answers = new List<string>();
+    private List<string> Feedback = new List<string>();
     private void onchange_n(ChangeEventArgs e)
     {
         N = 0;
@@ -40,14 +40,14 @@ Num items:
         testlist.Clear();
         testlist.AddRange(Enumerable.Range(0, N).Select(_ => 0));
 
-        MyList.Clear();
-        MyList2.Clear();
-        MyList3.Clear();
+        CheckboxList.Clear();
+        Answers.Clear();
+        Feedback.Clear();
         foreach (int i in testlist)
         {
-            MyList.Add(false);
-            MyList2.Add("Vastaus");
-            MyList3.Add("Palaute");
+            CheckboxList.Add(false);
+            Answers.Add("Vastaus");
+            Feedback.Add("Palaute");
         }
         StateHasChanged();
     }
@@ -86,7 +86,7 @@ Num items:
         AnswersList.Clear();
         foreach (int i in testlist)
         {
-            AnswersList.Add(new AnswerOption(MyList2[i], MyList[i], MyList3[i]));
+            AnswersList.Add(new AnswerOption(Answers[i], CheckboxList[i], Feedback[i]));
         }
 
         // foreach (string line in answerString.Split('\n'))
