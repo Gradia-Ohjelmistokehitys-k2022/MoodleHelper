@@ -21,6 +21,7 @@ Num items:
     var currentItem = questionOptions[i];
     <input type="checkbox" @bind="@currentItem.IsChecked" />
     <input type="text" @bind="@currentItem.Answer" />
+    <input type="number" @bind="@currentItem.MaxPoints" />
     <input type="text" @bind="@currentItem.Feedback" />
     <br />
     
@@ -45,7 +46,7 @@ Num items:
             itemCount = items;
             while (questionOptions.Count < itemCount)
             {
-                questionOptions.Add(new QuestionOption { IsChecked = false, Answer = "Vastaus", Feedback = "Palaute" });
+                questionOptions.Add(new QuestionOption { IsChecked = false, Answer = "Vastaus", MaxPoints = 1, Feedback = "Palaute" });
             }
 
   
@@ -83,16 +84,28 @@ Num items:
     private bool disabled = true;
     private string shortResult = "";
     string previous = "";
+    int maxPointsSum = 1;
+    List<int> ListOfPoints = new List<int>();
     List<AnswerOption> AnswersList = new List<AnswerOption>();
 
 
     private void GenerateShort()
     {
         AnswersList.Clear();
+        ListOfPoints.Clear();
         foreach (var option in questionOptions)
         {
             AnswersList.Add(new AnswerOption(option.Answer, option.IsChecked, option.Feedback));
+            if (option.IsChecked == true)
+            {
+                ListOfPoints.Add(option.MaxPoints);
+            }
+            else
+            {
+                ListOfPoints.Add(0);
+            }
         }
+        maxPointsSum = ListOfPoints.Sum();
 
         // foreach (string line in answerString.Split('\n'))
         // {
@@ -113,13 +126,14 @@ Num items:
         //     }
         // }
         //uses the generator from SyntaxGen.cs, which is located in the "SyntaxGenerator" project
-        shortResult = SyntaxGen.CreateShortAnswer(AnswersList, null, caseSensitiveCheck);
+        shortResult = SyntaxGen.CreateShortAnswer(AnswersList, null, caseSensitiveCheck, maxPointsSum);
     }
 
     public class QuestionOption
     {
         public bool IsChecked { get; set; }
         public string Answer { get; set; }
+        public int MaxPoints { get; set; }
         public string Feedback { get; set; }
     }
 
