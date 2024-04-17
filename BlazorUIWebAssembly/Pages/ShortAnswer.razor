@@ -1,6 +1,7 @@
 ﻿@page "/ShortAnswer"
 @using static SyntaxGenerator.SyntaxGen
 @using SyntaxGenerator.Models
+@inject ClipboardService ClipboardService
 
 
 <PageTitle>Lyhyt vastaus | MOODLE GENERAATTORI</PageTitle>
@@ -70,10 +71,13 @@ Num items:
 
 <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateShort">Luo syntaksi</Button>
 
-<div>   
-    <h3>Tulos: @shortResult</h3>
-</div>
 
+<h3>Tulos: @shortResult</h3>
+
+@if (!string.IsNullOrWhiteSpace(shortResult))
+{
+    <button @onclick="CopyToClipboard">Kopioi</button>
+}
 
 
 @code {
@@ -137,4 +141,16 @@ Num items:
         public string Feedback { get; set; }
     }
 
+    async Task CopyToClipboard()
+    {
+        // Writing to the clipboard may be denied, so you must handle the exception
+        try
+        {
+            await ClipboardService.WriteTextAsync(shortResult);
+        }
+        catch
+        {
+            Console.WriteLine("Cannot write text to clipboard");
+        }
+    }
 }

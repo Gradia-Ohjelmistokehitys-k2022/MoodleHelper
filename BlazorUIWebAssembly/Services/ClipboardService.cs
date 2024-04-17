@@ -1,24 +1,26 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.JSInterop;
-using BlazorUIWebAssembly.Shared;
+
 
 namespace BlazorUIWebAssembly.Services
 {
-    public interface IClipboardService
+    public class ClipboardService
     {
-        Task CopyToClipboard(string text);
-    }
-    public class ClipboardService : IClipboardService
-    {
-        private readonly IJSRuntime _jsInterop;
-        
-        public ClipboardService(IJSRuntime jsInterop)
+        private readonly IJSRuntime _jsRuntime;
+
+        public ClipboardService(IJSRuntime jsRuntime)
         {
-            _jsInterop = jsInterop;
+            _jsRuntime = jsRuntime;
         }
-        public async Task CopyToClipboard(string text)
+
+        public ValueTask<string> ReadTextAsync()
         {
-            await _jsInterop.InvokeVoidAsync("navigator.clipboard.writeText");
+            return _jsRuntime.InvokeAsync<string>("navigator.clipboard.readText");
+        }
+
+        public ValueTask WriteTextAsync(string text)
+        {
+            return _jsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", text);
         }
     }
 }

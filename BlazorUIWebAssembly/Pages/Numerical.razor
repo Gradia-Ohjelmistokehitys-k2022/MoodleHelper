@@ -2,6 +2,7 @@
 @using static SyntaxGenerator.SyntaxGen
 @using SyntaxGenerator.Models
 @inject IJSRuntime JSRuntime
+@inject ClipboardService ClipboardService
 
 <PageTitle>Numeerinen | MOODLE GENERAATTORI</PageTitle>
 
@@ -32,7 +33,10 @@
 <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateNumerical">Luo syntaksi</Button>
 
 <h3>Tulos: @numericalResult</h3>
-
+@if (!string.IsNullOrWhiteSpace(numericalResult))
+{
+    <button @onclick="CopyToClipboard">Kopioi</button>
+}
 
 @code {
     bool agree1; 
@@ -50,8 +54,23 @@
 
     private void GenerateNumerical()
     {
-        //uses the generator from SyntaxGen.cs, which is located in the "SyntaxGenerator" project
-        numericalResult = CreateNumerical(Convert.ToDecimal(answerString), feedbackString, Convert.ToDecimal(marginAmount), Convert.ToInt32(pointAmount));
+        AnswersList.Add(new AnswerOption(answerString, true, pointAmount));
 
+        //uses the generator from SyntaxGen.cs, which is located in the "SyntaxGenerator" project
+        numericalResult = CreateNumerical(AnswersList, feedbackString, Convert.ToDecimal(marginAmount), Convert.ToInt32(pointAmount));
+
+    }
+
+    async Task CopyToClipboard()
+    {
+        // Writing to the clipboard may be denied, so you must handle the exception
+        try
+        {
+            await ClipboardService.WriteTextAsync(numericalResult);
+        }
+        catch
+        {
+            Console.WriteLine("Cannot write text to clipboard");
+        }
     }
 }

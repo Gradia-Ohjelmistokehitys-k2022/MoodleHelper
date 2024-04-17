@@ -13,22 +13,58 @@ namespace SyntaxGenerator
         /// <param name="margin">The margin of error</param>
         /// <param name="maxPoints">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        public static string CreateNumerical(decimal correctAnswer, string feedback, decimal margin = 0, int maxPoints = 1)
+        public static string CreateNumerical(List<AnswerOption> answers, string feedback, decimal margin = 0, int maxPoints = 1)
         {
             string question = "{";
+            question += $"{maxPoints}:NUMERICAL:";
 
-            // Check if feedback is empty and then create the question
+            // Go through all the answers (use for instead of foreach to not add ~ to the last answer option)
+            for (int i = 0; i < answers.Count; i++)
+            {
+                AnswerOption answer = answers[i];
+
+                // If current answer is correct
+                if (answer.IsCorrect == true)
+                {
+                    // If the feedback is empty
+                    if (string.IsNullOrWhiteSpace(answer.Feedback))
+                    {
+                        question += $"%{answer.PointsPercent}%{answer.Text}:{margin}";
+                    }
+
+                    else
+                    {
+                        question += $"%{answer.PointsPercent}%{answer.Text}:{margin}#{answer.Feedback}";
+                    }
+                }
+
+                else
+                {
+                    // If the feedback is empty
+                    if (string.IsNullOrWhiteSpace(answer.Feedback))
+                    {
+                        question += $"%{answer.PointsPercent}%{answer.Text}:{margin}";
+                    }
+
+                    else
+                    {
+                        question += $"%{answer.PointsPercent}%{answer.Text}:{margin}#{answer.Feedback}";
+                    }
+                }
+
+                // Add a wavy line for the next answer option if not the last answer
+                if ((i + 1) != answers.Count)
+                {
+                    question += "~";
+                }
+            }
+
             if (string.IsNullOrWhiteSpace(feedback))
             {
-                question += $"{maxPoints}:NUMERICAL:%100%{correctAnswer}:{margin}";
+                return question += "}";
             }
 
-            else
-            {
-                question += $"{maxPoints}:NUMERICAL:%100%{correctAnswer}:{margin}#{feedback}";
-            }
-
-            return question += "}";
+            return question += $"*#{feedback}" + "}";
         }
 
         /// <summary>
@@ -65,12 +101,12 @@ namespace SyntaxGenerator
                     // If the feedback is empty
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
-                        question += $"%100%{answer.Text}";
+                        question += $"%{answer.PointsPercent}%{answer.Text}";
                     }
 
                     else
                     {
-                        question += $"%100%{answer.Text}#{answer.Feedback}";
+                        question += $"%{answer.PointsPercent}%{answer.Text}#{answer.Feedback}";
                     }
                 }
 
@@ -148,12 +184,12 @@ namespace SyntaxGenerator
                     // If the feedback is empty
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
-                        question += $"%100%{answer.Text}";
+                        question += $"%{answer.PointsPercent}%{answer.Text}";
                     }
 
                     else
                     {
-                        question += $"%100%{answer.Text}#{answer.Feedback}";
+                        question += $"%{answer.PointsPercent}%{answer.Text}#{answer.Feedback}";
                     }
                 }
                 
@@ -187,17 +223,13 @@ namespace SyntaxGenerator
         /// <param name="answers">A list of the correct answers</param>
         /// <param name="isRandomized">Whether or not the answers are scrambled</param>
         /// <param name="isVertical">Are the answer options vertical (true) or horizontal (false)</param>
-        /// <param name="pointsPerAnswer">The amount of points given</param>
+        /// <param name="maxPoints">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        public static string CreateMultiResponse(List<AnswerOption> answers, bool isRandomized, bool isVertical, int pointsPerAnswer = 1)
+        public static string CreateMultiResponse(List<AnswerOption> answers, bool isRandomized, bool isVertical, int maxPoints = 1)
         {
             string question = "{";
 
-            // Calculate the total amount of points so we can calculate the percentage of points per answer
-            int totalPoints = answers.Count(answer => answer.IsCorrect) * pointsPerAnswer;
-
-            // Add the total amount of points to the question
-            question += $"{totalPoints}:";
+            question += $"{maxPoints}:";
 
             // Add the question type to the question
             if (isRandomized == true)
@@ -228,9 +260,6 @@ namespace SyntaxGenerator
                 }
             }
 
-            // Calculate the percentage of points per answer
-            double percentPerQuestion = Math.Round((double)pointsPerAnswer / totalPoints * 100);
-
             for (int i = 0; i < answers.Count; i++)
             {
                 AnswerOption answer = answers[i];
@@ -241,12 +270,12 @@ namespace SyntaxGenerator
                     // If the feedback is empty
                     if (string.IsNullOrWhiteSpace(answer.Feedback))
                     {
-                        question += $"%{percentPerQuestion}%{answer.Text}";
+                        question += $"%{answer.PointsPercent}%{answer.Text}";
                     }
 
                     else
                     {
-                        question += $"%{percentPerQuestion}%{answer.Text}#{answer.Feedback}";
+                        question += $"%{answer.PointsPercent}%{answer.Text}#{answer.Feedback}";
                     }
                 }
 
