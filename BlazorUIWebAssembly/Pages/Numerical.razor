@@ -7,7 +7,7 @@
 
 
 <h3>Numeerinen</h3>
-<div>
+@* <div>
 	<label for="pointAmount">Syötä pistemäärä</label>
 	<input id="pointAmount" name="pointAmount" type="number" @bind="pointAmount" style="width: 300px;" />
 </div>
@@ -22,12 +22,58 @@
     <input id="marginAmount" name="marginAmount" @bind="marginAmount" style="width: 300px;" />
 </div>
 
-
-
 <div>
     <p>Syötä palaute</p>
     <textarea id="feedbackString" name="feedbackString" @bind="feedbackString" style="width: 300px;height: 150px;" />
-</div>
+</div> *@
+
+Num items:
+<input type="number" value="@itemCount" @oninput="onchange_n" max="10" min="1">
+<br>
+
+@for (int i = 0; i < itemCount; i++)
+{
+    var currentItem = questionOptions[i];
+    <input type="checkbox" @bind="@currentItem.IsChecked" />
+    <input type="number" @bind="@currentItem.Answer" />
+    <input type="number" @bind="@currentItem.Margin" />
+    <input type="number" @bind="@currentItem.MaxPoints" />
+    <input type="text" @bind="@currentItem.Feedback" />
+    <br />
+
+    <br />
+}
+
+@code
+{
+    private int itemCount = 0, total = 0;
+    bool test = false;
+    // private List<int> testlist = new List<int>();
+    // private List<bool> MyList = new List<bool>();
+    // private List<string> MyList2 = new List<string>();
+    // private List<string> MyList3 = new List<string>();
+
+    private List<QuestionOption> questionOptions = new List<QuestionOption>();
+
+    private void onchange_n(ChangeEventArgs e)
+    {
+        if (Int32.TryParse(e.Value.ToString(), out int items))
+        {
+            itemCount = items;
+            while (questionOptions.Count < itemCount)
+            {
+                questionOptions.Add(new QuestionOption { IsChecked = false, Answer = 0, Margin = 0, MaxPoints = 1, Feedback = "Palaute" });
+            }
+
+
+            while (questionOptions.Count > itemCount)
+            {
+                questionOptions.RemoveAt(questionOptions.Count - 1);
+            }
+            StateHasChanged();
+        }
+    }
+}
 
 <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateNumerical">Luo syntaksi</Button>
 
@@ -54,4 +100,13 @@
         numericalResult = CreateNumerical(Convert.ToDecimal(answerString), feedbackString, Convert.ToDecimal(marginAmount), Convert.ToInt32(pointAmount));
 
     }
+    public class QuestionOption
+    {
+        public bool IsChecked { get; set; }
+        public int Answer { get; set; }
+        public int Margin { get; set; }
+        public int MaxPoints { get; set; }
+        public string Feedback { get; set; }
+    }
+
 }
