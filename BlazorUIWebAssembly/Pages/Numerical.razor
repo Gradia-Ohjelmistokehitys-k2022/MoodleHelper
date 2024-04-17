@@ -35,7 +35,7 @@
 <h3>Tulos: @numericalResult</h3>
 @if (!string.IsNullOrWhiteSpace(numericalResult))
 {
-    <button @onclick="CopyToClipboard">Kopioi</button>
+    <Button Color="ButtonColor.Secondary" Outline="true" @onclick="CopyToClipboard">Kopioi</Button>
 }
 
 @code {

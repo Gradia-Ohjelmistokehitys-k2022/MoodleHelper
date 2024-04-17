@@ -56,7 +56,7 @@
 <h3>Tulos: @MultiChoiceResult</h3>
 @if (!string.IsNullOrWhiteSpace(MultiChoiceResult))
 {
-    <button @onclick="CopyToClipboard">Kopioi</button>
+    <Button Color="ButtonColor.Secondary" Outline="true" @onclick="CopyToClipboard">Kopioi</Button>
 }
 
 @code {
