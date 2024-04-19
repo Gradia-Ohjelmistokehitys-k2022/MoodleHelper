@@ -1,7 +1,7 @@
 ﻿@page "/ShortAnswer"
 @using static SyntaxGenerator.SyntaxGen
 @using SyntaxGenerator.Models
-@inject ClipboardService ClipboardService
+@using BlazorUIWebAssembly.Shared
 
 
 <PageTitle>Lyhyt vastaus | MOODLE GENERAATTORI</PageTitle>
@@ -13,9 +13,11 @@
 <input type="number" value="@N" @oninput="onchange_n" min="1" max="10">
 <br> *@
 
-Num items:
+Mahdollisten vaihtoehtojen määrä:
 <input type="number" value="@itemCount" @oninput="onchange_n" max="10" min="1">
 <br>
+<input type="number" value="@maxPoints">
+
 
 @for (int i = 0; i < itemCount; i++)
 {
@@ -37,6 +39,7 @@ Num items:
     // private List<bool> MyList = new List<bool>();
     // private List<string> MyList2 = new List<string>();
     // private List<string> MyList3 = new List<string>();
+    int maxPoints = 1;
 
     private List<QuestionOption> questionOptions = new List<QuestionOption>();
     
@@ -76,7 +79,11 @@ Num items:
 
 @if (!string.IsNullOrWhiteSpace(shortResult))
 {
-    <Button Color="ButtonColor.Secondary" Outline="true" @onclick="CopyToClipboard">Kopioi</Button>
+    <button class="@Clipboard.buttonData.ButtonClass" disabled="@buttonData.IsDisabled"
+            @onclick="Clipboard.CopyToClipboard(shortResult)">
+        <i class="@buttonData.FontAwesomeClass"></i> @buttonData.ButtonText
+    </button>
+@*     <Button Color="ButtonColor.Secondary" Outline="true" @onclick="CopyToClipboard">Kopioi</Button> *@
 }
 
 
@@ -141,16 +148,21 @@ Num items:
         public string Feedback { get; set; }
     }
 
-    async Task CopyToClipboard()
-    {
-        // Writing to the clipboard may be denied, so you must handle the exception
-        try
-        {
-            await ClipboardService.WriteTextAsync(shortResult);
-        }
-        catch
-        {
-            Console.WriteLine("Cannot write text to clipboard");
-        }
-    }
+
+    
+
+
+
+    // async Task CopyToClipboard()
+    // {
+    //     // Writing to the clipboard may be denied, so you must handle the exception
+    //     try
+    //     {
+    //         await ClipboardService.WriteTextAsync(shortResult);
+    //     }
+    //     catch
+    //     {
+    //         Console.WriteLine("Cannot write text to clipboard");
+    //     }
+    // }
 }

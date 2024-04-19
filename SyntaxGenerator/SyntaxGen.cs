@@ -222,7 +222,7 @@ namespace SyntaxGenerator
         /// </summary>
         /// <param name="answers">A list of the correct answers</param>
         /// <param name="isRandomized">Whether or not the answers are scrambled</param>
-        /// <param name="isVertical">Are the answer options vertical (true) or horizontal (false)</param>
+        /// <param name="isVertical">Are the answer options presented vertical (true) or horizontal (false)</param>
         /// <param name="maxPoints">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
         public static string CreateMultiResponse(List<AnswerOption> answers, bool isRandomized, bool isVertical, int maxPoints = 1)
