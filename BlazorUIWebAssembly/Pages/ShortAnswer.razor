@@ -2,6 +2,7 @@
 @using static SyntaxGenerator.SyntaxGen
 @using SyntaxGenerator.Models
 @using BlazorUIWebAssembly.Shared
+@inject ClipboardService ClipboardService
 
 
 <PageTitle>Lyhyt vastaus | MOODLE GENERAATTORI</PageTitle>
@@ -79,11 +80,11 @@ Mahdollisten vaihtoehtojen määrä:
 
 @if (!string.IsNullOrWhiteSpace(shortResult))
 {
-    <button class="@Clipboard.buttonData.ButtonClass" disabled="@buttonData.IsDisabled"
+@*     <button class="@Clipboard.buttonData.ButtonClass" disabled="@buttonData.IsDisabled"
             @onclick="Clipboard.CopyToClipboard(shortResult)">
         <i class="@buttonData.FontAwesomeClass"></i> @buttonData.ButtonText
-    </button>
-@*     <Button Color="ButtonColor.Secondary" Outline="true" @onclick="CopyToClipboard">Kopioi</Button> *@
+    </button> *@
+    <Button Color="ButtonColor.Secondary" Outline="true" @onclick="CopyToClipboard">Kopioi</Button>
 }
 
 
@@ -153,16 +154,16 @@ Mahdollisten vaihtoehtojen määrä:
 
 
 
-    // async Task CopyToClipboard()
-    // {
-    //     // Writing to the clipboard may be denied, so you must handle the exception
-    //     try
-    //     {
-    //         await ClipboardService.WriteTextAsync(shortResult);
-    //     }
-    //     catch
-    //     {
-    //         Console.WriteLine("Cannot write text to clipboard");
-    //     }
-    // }
+    async Task CopyToClipboard()
+    {
+        // Writing to the clipboard may be denied, so you must handle the exception
+        try
+        {
+            await ClipboardService.WriteTextAsync(shortResult);
+        }
+        catch
+        {
+            Console.WriteLine("Cannot write text to clipboard");
+        }
+    }
 }
