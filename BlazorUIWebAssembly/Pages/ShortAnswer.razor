@@ -7,18 +7,19 @@
 
 <PageTitle>Lyhyt vastaus | MOODLE GENERAATTORI</PageTitle>
 
-<h3>LyhytVastaus</h3>
+<h3>Lyhytvastaus</h3>
 
 
 @* Mahdollisten vaihtoehtojen määrä:
 <input type="number" value="@N" @oninput="onchange_n" min="1" max="10">
 <br> *@
 
-Mahdollisten vaihtoehtojen määrä:
+Vastausvaihtoehtojen määrä:
 <input type="number" value="@itemCount" @oninput="onchange_n" max="10" min="1">
 <br>
+Maksimipistemäärä:
 <input type="number" value="@maxPoints">
-
+<br>
 
 @for (int i = 0; i < itemCount; i++)
 {

@@ -9,12 +9,8 @@
 <p>Yksi vai useampi valittava vastaus?</p>
 <label>Yksi</label> <label><Switch @bind-Value="show" @onclick="fixBoxed" Label="Useampi oikein"></Switch></label>
 
-
-<div>
-    <p>Syötä vastaukset, ja että onko oikein vai väärin. Erottele useammat vastaukset rivinvaihdolla. Jos oikeita vastauksia on enemmän kuin yksi, pisteet tulevat jokaisesta oikeista vastauksesta.
-    </p>
-</div>
-
+<br>
+Vastausvaihtoehtojen määrä:
 <input type="number" value="@itemCount" @oninput="onchange_n" max="10" min="1">
 <br>
 
@@ -34,10 +30,6 @@
 {
     private int itemCount = 0, total = 0;
     bool test = false;
-    // private List<int> testlist = new List<int>();
-    // private List<bool> MyList = new List<bool>();
-    // private List<string> MyList2 = new List<string>();
-    // private List<string> MyList3 = new List<string>();
 
     private List<QuestionOption> questionOptions = new List<QuestionOption>();
 
@@ -61,25 +53,8 @@
     }
 }
 
- @*<div>
-    <input type="checkbox" @bind="answercheckbox1"><textarea id="shortAnswer" @bind="answerString1" style="width: 300px;" /><input type="number" @bind="pointAmount1" style="width: 50px;" /><textarea @bind="feedbackString1" style="width: 100px;" />
-</div>
-<div>
-    <input type="checkbox" @bind="answercheckbox2"><textarea id="shortAnswer" @bind="answerString2" style="width: 300px;" /><input type="number" @bind="pointAmount2" style="width: 50px;" /><textarea @bind="feedbackString2" style="width: 100px;" />
-</div>
-<div>
-    <input type="checkbox" @bind="answercheckbox3"><textarea id="shortAnswer" @bind="answerString3" style="width: 300px;" /><input type="number" @bind="pointAmount3" style="width: 50px;" /><textarea @bind="feedbackString3" style="width: 100px;" />
-</div>
-<div>
-    <input type="checkbox" @bind="answercheckbox4"><textarea id="shortAnswer" @bind="answerString4" style="width: 300px;" /><input type="number" @bind="pointAmount4" style="width: 50px;" /><textarea @bind="feedbackString4" style="width: 100px;" />
-</div> *@
-
 <div>
     <Switch @bind-Value="shuffleAnswers" Label="Sekoita vastaukset?" />
-</div>
-
-<div>
-    <label>Vastauksen tyyppi? @answerLabel</label>
 </div>
 
     <Dropdown>
@@ -199,22 +174,6 @@
 
     private void GenerateMultiChoice()
     {
-        // if (answerString1 != "")
-        // {
-        //     MultiChoiceList.Add(new AnswerOption(answerString1, answercheckbox1, feedbackString1));
-        // }
-        // if (answerString2 != "")
-        // {
-        //     MultiChoiceList.Add(new AnswerOption(answerString2, answercheckbox2, feedbackString2));
-        // }
-        // if (answerString3 != "")
-        // {
-        //     MultiChoiceList.Add(new AnswerOption(answerString3, answercheckbox3, feedbackString3));
-        // }
-        // if (answerString4 != "")
-        // {
-        //     MultiChoiceList.Add(new AnswerOption(answerString4, answercheckbox4, feedbackString4)); 
-        // }
         ListOfPoints.Clear();
         AnswersList.Clear();
         foreach (var option in questionOptions)
