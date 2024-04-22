@@ -7,6 +7,9 @@
 
 <PageTitle>Avoin vastaus | MOODLE GENERAATTORI</PageTitle>
 
+
+<Toasts class="p-3" Messages="copyNotif" StackLength="3" AutoHide="true" Delay="6000" Placement="ToastsPlacement.BottomLeft" />
+
 <h3>Avoin vastaus</h3>
 
 <div class="row mb-4">
@@ -113,6 +116,13 @@
 </div>
 
 @code {
+    List<ToastMessage> copyNotif = new();
+    private void ShowMessage(ToastType toastType) => copyNotif.Add(CreateToastMessage(toastType));
+    private ToastMessage CreateToastMessage(ToastType toastType) => new ToastMessage
+        {
+            Type = toastType,
+            Message = $"Kopiotu leikepöydälle!",
+        };
 
     bool caseSensitiveCheck;
     bool disabledCopy =true;
@@ -155,6 +165,8 @@
         try
         {
             await ClipboardService.WriteTextAsync(shortResult);
+
+            ShowMessage(ToastType.Success);
         }
         catch
         {

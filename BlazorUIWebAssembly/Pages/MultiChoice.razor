@@ -5,6 +5,9 @@
 
 <PageTitle>Monivalinta | MOODLE GENERAATTORI</PageTitle>
 
+
+<Toasts class="p-3" Messages="copyNotif" StackLength="3" AutoHide="true" Delay="6000" Placement="ToastsPlacement.BottomLeft" />
+
 <h3>Monivalinta</h3>
 
 <div class="row mb-4">
@@ -129,25 +132,13 @@
 </div>
 
 @code {
-    bool answercheckbox1;
-    bool answercheckbox2;
-    bool answercheckbox3;
-    bool answercheckbox4;
-
-    private static string answerString1 { get; set; }
-    private static string answerString2 { get; set; }
-    private static string answerString3 { get; set; }
-    private static string answerString4 { get; set; }
-
-    private static string pointAmount1 { get; set; }
-    private static string pointAmount2 { get; set; }
-    private static string pointAmount3 { get; set; }
-    private static string pointAmount4 { get; set; }
-
-    private static string feedbackString1 { get; set; }
-    private static string feedbackString2 { get; set; }
-    private static string feedbackString3 { get; set; }
-    private static string feedbackString4 { get; set; }
+    List<ToastMessage> copyNotif = new();
+    private void ShowMessage(ToastType toastType) => copyNotif.Add(CreateToastMessage(toastType));
+    private ToastMessage CreateToastMessage(ToastType toastType) => new ToastMessage
+        {
+            Type = toastType,
+            Message = $"Kopiotu leikepöydälle!",
+        };
 
     bool shuffleAnswers;
     bool horizontalOrVertical;
@@ -260,6 +251,7 @@
         try
         {
             await ClipboardService.WriteTextAsync(MultiChoiceResult);
+            ShowMessage(ToastType.Success);
         }
         catch
         {
