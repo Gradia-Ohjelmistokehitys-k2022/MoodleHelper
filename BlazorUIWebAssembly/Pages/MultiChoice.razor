@@ -106,18 +106,24 @@
 
 <div class="row mb-4">
     <div class="col-md-12">
-        <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateMultiChoice">Luo syntaksi</Button>
+        <div class="form-group">
+            <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateMultiChoice">Luo syntaksi</Button>
+        </div>
     </div>
 
     @if (!string.IsNullOrWhiteSpace(MultiChoiceResult))
     {
         <div class="col-md-12">
-            <h2>Tulos:</h2>
-            <pre>@MultiChoiceResult</pre>
+            <div class="form-group">
+                <h2>Tulos:</h2>
+                <pre>@MultiChoiceResult</pre>
+            </div>
         </div>
 
         <div class="col-md-12">
-            <Button Color="ButtonColor.Secondary" Outline="true" @onclick="CopyToClipboard">Kopioi</Button>
+            <div class="form-group">
+                <Button Color="ButtonColor.Secondary" Outline="true" @onclick="CopyToClipboard">Kopioi</Button>
+            </div>
         </div>
     }
 </div>
