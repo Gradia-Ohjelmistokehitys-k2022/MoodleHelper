@@ -44,14 +44,14 @@
 
         <div class="col-md-4">
             <div class="form-group">
-                <label for="@($"points-{i}")">Prosenttiosuus maksimipisteistä:</label>
+                <Tooltip Title="Kuinka monta prosenttia maksimipisteitä tästä vastauksesta annetaan (100 = oikea vastaus)" for="@($"points-{i}")">Prosenttiosuus maksimipisteistä:</Tooltip>
                 <input type="number" class="form-control w-100" id="@($"points-{i}")" @bind="@currentItem.PointsPercent" />
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="form-group">
-                <label for="@($"feedback-{i}")">Palaute:</label>
+                <Tooltip Title="Annettava palaute, mikäli oppilas vastaa tämän vastauksen" for="@($"feedback-{i}")">Palaute:</Tooltip>
                 <textarea class="form-control w-100" id="@($"feedback-{i}")" @bind="@currentItem.Feedback" placeholder="Annettava palaute, mikäli oppilas vastaa tämän vastauksen"></textarea>
             </div>
         </div>
@@ -127,7 +127,7 @@
 
                 break;
             }
-            AnswersList.Add(new AnswerOption(option.Answer, true, option.Feedback, option.PointsPercent));
+            AnswersList.Add(new AnswerOption(option.Answer, option.Feedback, option.PointsPercent));
         }
 
         //uses the generator from SyntaxGen.cs, which is located in the "SyntaxGenerator" project

@@ -6,23 +6,72 @@
 <PageTitle>Monivalinta | MOODLE GENERAATTORI</PageTitle>
 
 <h3>Monivalinta</h3>
-<label>Yksi</label> <label><Switch @bind-Value="show" @onclick="fixBoxed" Label="Useampi oikein"></Switch></label>
 
-<br>
-Vastausvaihtoehtojen määrä:
-<input type="number" value="@itemCount" @oninput="onchange_n" max="10" min="1">
-<br>
+<div class="row mb-4">
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="itemCount">Vastausvaihtoehtojen määrä:</label>
+            <input type="number" class="form-control w-100" value="@itemCount" @oninput="onchange_n" max="10" min="0">
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="maxPoints">Maksimipistemäärä:</label>
+            <input type="number" class="form-control w-100" @bind="@maxPoints">
+        </div>
+    </div>
+
+    <div class="col-md-1">
+        <label for="shuffleAnswers">Sekoita vastaukset?</label>
+        <Switch id="shuffleAnswers" @bind-Value="shuffleAnswers" />
+    </div>
+
+    <div class="col-md-2">
+        <label>Yksi</label> <label><Switch @bind-Value="show" @onclick="fixBoxed" Label="Useampi oikein"></Switch></label>
+    </div>
+
+    <div class="col-md-2">
+        <Dropdown>
+            <DropdownToggleButton Color="ButtonColor.Secondary">@answerLabel</DropdownToggleButton>
+            <DropdownMenu>
+                <DropdownHeader>Vastauksen esitystyyli</DropdownHeader>
+                <DropdownItem @onclick="DisableOthersThanVertical" Type="ButtonType.Link">Päällekkäin</DropdownItem>
+                <DropdownItem @onclick="DisableOthersThanHorizontal" Type="ButtonType.Link">Rivissä</DropdownItem>
+                <DropdownItem @onclick="DisableOthersThanBoxed" Disabled="@show" Type="ButtonType.Link">Pudotusvalikossa</DropdownItem>
+            </DropdownMenu>
+        </Dropdown>
+    </div>
+
+</div>
+
 
 @for (int i = 0; i < itemCount; i++)
 {
     var currentItem = questionOptions[i];
-    <input type="checkbox" @bind="@currentItem.IsChecked" />
-    <input type="text" @bind="@currentItem.Answer" />
-    <input type="number" @bind="@currentItem.MaxPoints" />
-    <input type="text" @bind="@currentItem.Feedback" />
-    <br />
 
-    <br />
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="@($"questionText-{i}")">Vastaus:</label>
+                <input type="text" class="form-control w-100" id="@($"questionText-{i}")" @bind="@currentItem.Answer" placeholder="Vastausvaihtoehto" />
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <Tooltip Title="Kuinka monta prosenttia maksimipisteitä tästä vastauksesta annetaan (100 = oikea vastaus)" for="@($"points-{i}")">Prosenttiosuus maksimipisteistä:</Tooltip>
+                <input type="number" class="form-control w-100" id="@($"points-{i}")" @bind="@currentItem.PointsPercent" />
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <Tooltip Title="Annettava palaute, mikäli oppilas vastaa tämän vastauksen" for="@($"feedback-{i}")">Palaute:</Tooltip>
+                <textarea class="form-control w-100" id="@($"feedback-{i}")" @bind="@currentItem.Feedback"></textarea>
+            </div>
+        </div>
+    </div>
 }
 
 @code
@@ -39,7 +88,7 @@ Vastausvaihtoehtojen määrä:
             itemCount = items;
             while (questionOptions.Count < itemCount)
             {
-                questionOptions.Add(new QuestionOption { IsChecked = false, Answer = "Vastaus", MaxPoints = 1, Feedback = "Palaute" });
+                questionOptions.Add(new QuestionOption { Answer = "", PointsPercent = 100, Feedback = "" });
             }
 
 
@@ -52,31 +101,26 @@ Vastausvaihtoehtojen määrä:
     }
 }
 
-<div>
-    <Switch @bind-Value="shuffleAnswers" Label="Sekoita vastaukset?" />
+
+
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateMultiChoice">Luo syntaksi</Button>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(MultiChoiceResult))
+    {
+        <div class="col-md-12">
+            <h2>Tulos:</h2>
+            <pre>@MultiChoiceResult</pre>
+        </div>
+
+        <div class="col-md-12">
+            <Button Color="ButtonColor.Secondary" Outline="true" @onclick="CopyToClipboard">Kopioi</Button>
+        </div>
+    }
 </div>
-
-    <Dropdown>
-        <DropdownToggleButton Color="ButtonColor.Secondary">Vastauksen tyyppi</DropdownToggleButton>
-        <DropdownMenu>
-            <DropdownItem @onclick="DisableOthersThanVertical" Type="ButtonType.Link">Pysty</DropdownItem>
-            <DropdownItem @onclick="DisableOthersThanHorizontal" Type="ButtonType.Link">Vaaka</DropdownItem>
-            <DropdownItem @onclick="DisableOthersThanBoxed" Disabled="@show" Type="ButtonType.Link">Laatikko</DropdownItem>
-        </DropdownMenu>
-    </Dropdown>
-
-
-<div>
-    <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateMultiChoice">Luo syntaksi</Button>
-</div>
-
-
-
-<h3>Tulos: @MultiChoiceResult</h3>
-@if (!string.IsNullOrWhiteSpace(MultiChoiceResult))
-{
-    <Button Color="ButtonColor.Secondary" Outline="true" @onclick="CopyToClipboard">Kopioi</Button>
-}
 
 @code {
     bool answercheckbox1;
@@ -110,10 +154,12 @@ Vastausvaihtoehtojen määrä:
     private bool disabled = true;
     private string MultiChoiceResult = "";
     private static string previous = "";
-    private string answerLabel = "";
+    private string answerLabel = "Päällekkäin";
     List<AnswerOption> MultiChoiceList = new List<AnswerOption>();
     private bool show = false;
     private static bool finalValueNotNull;
+
+    private int maxPoints = 1;
 
     List<int> ListOfPoints = new List<int>();
     List<AnswerOption> AnswersList = new List<AnswerOption>();
@@ -132,15 +178,15 @@ Vastausvaihtoehtojen määrä:
     {
         if (verticalTrue == true)
         {
-            answerLabel = "PYSTYSUUNTAINEN MONIVALINTA";
+            answerLabel = "Päällekkäin";
         }
         if (horizontalTrue == true)
         {
-            answerLabel = "VAAKASUUNTAINEN MONIVALINTA";
+            answerLabel = "Rivissä";
         }
         if (boxedTrue == true)
         {
-            answerLabel = "LAATIKKOVASTAUS";
+            answerLabel = "Pudotusvalikossa";
         }
     }
 
@@ -177,38 +223,28 @@ Vastausvaihtoehtojen määrä:
         AnswersList.Clear();
         foreach (var option in questionOptions)
         {
-            AnswersList.Add(new AnswerOption(option.Answer, option.IsChecked, option.Feedback, option.MaxPoints));
-            if (option.IsChecked == true)
-            {
-                ListOfPoints.Add(option.MaxPoints);
-            }
-            else
-            {
-                ListOfPoints.Add(0);
-            }
+            AnswersList.Add(new AnswerOption(option.Answer, option.Feedback, option.PointsPercent));
         }
-        maxPointsSum = ListOfPoints.Sum();
         
 
         if (show == false)
         {
-            MultiChoiceResult = CreateMultiChoice(AnswersList, shuffleAnswers, finalValue/* , Int32.Parse(pointAmount) */);
+            MultiChoiceResult = CreateMultiChoice(AnswersList, shuffleAnswers, finalValue, maxPoints);
         }
         else
         {
             if (show == true)
             {
                 finalValueNotNull = finalValue.HasValue ? finalValue.Value : false;
-                MultiChoiceResult = CreateMultiResponse(AnswersList, shuffleAnswers, finalValueNotNull/* , Int32.Parse(pointAmount) */);
+                MultiChoiceResult = CreateMultiResponse(AnswersList, shuffleAnswers, finalValueNotNull, maxPoints);
             }
         }
     }
 
     public class QuestionOption
     {
-        public bool IsChecked { get; set; }
         public string Answer { get; set; }
-        public int MaxPoints { get; set; }
+        public int PointsPercent { get; set; }
         public string Feedback { get; set; }
     }
 

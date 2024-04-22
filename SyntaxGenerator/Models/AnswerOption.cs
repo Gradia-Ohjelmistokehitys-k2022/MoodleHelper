@@ -3,34 +3,29 @@
     public class AnswerOption
     {
         public string Text { get; set; }
-        public bool IsCorrect { get; set; }
         public string? Feedback { get; set; }
         public int PointsPercent { get; set; }
 
-        public AnswerOption(string text, bool isCorrect)
+        public AnswerOption(string text)
         {
             Text = text;
-            IsCorrect = isCorrect;
         }
 
-        public AnswerOption(string text, bool isCorrect, int pointspercent)
+        public AnswerOption(string text, int pointspercent)
         {
             Text = text;
-            IsCorrect = isCorrect;
             PointsPercent = pointspercent;
         }
 
-        public AnswerOption(string text, bool isCorrect, string feedback)
+        public AnswerOption(string text, string feedback)
         {
             Text = text;
-            IsCorrect = isCorrect;
             Feedback = feedback;
         }
 
-        public AnswerOption(string text, bool isCorrect, string feedback, int points)
+        public AnswerOption(string text, string feedback, int points)
         {
             Text = text;
-            IsCorrect = isCorrect;
             Feedback = feedback;
             PointsPercent = points;
         }

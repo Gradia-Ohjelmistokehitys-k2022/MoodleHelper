@@ -23,33 +23,15 @@ namespace SyntaxGenerator
             {
                 AnswerOption answer = answers[i];
 
-                // If current answer is correct
-                if (answer.IsCorrect == true)
+                // If the feedback is empty
+                if (string.IsNullOrWhiteSpace(answer.Feedback))
                 {
-                    // If the feedback is empty
-                    if (string.IsNullOrWhiteSpace(answer.Feedback))
-                    {
-                        question += $"%{answer.PointsPercent}%{answer.Text}:{margin}";
-                    }
-
-                    else
-                    {
-                        question += $"%{answer.PointsPercent}%{answer.Text}:{margin}#{answer.Feedback}";
-                    }
+                    question += $"%{answer.PointsPercent}%{answer.Text}:{margin}";
                 }
 
                 else
                 {
-                    // If the feedback is empty
-                    if (string.IsNullOrWhiteSpace(answer.Feedback))
-                    {
-                        question += $"%{answer.PointsPercent}%{answer.Text}:{margin}";
-                    }
-
-                    else
-                    {
-                        question += $"%{answer.PointsPercent}%{answer.Text}:{margin}#{answer.Feedback}";
-                    }
+                    question += $"%{answer.PointsPercent}%{answer.Text}:{margin}#{answer.Feedback}";
                 }
 
                 // Add a wavy line for the next answer option if not the last answer
@@ -94,35 +76,16 @@ namespace SyntaxGenerator
             for (int i = 0; i < answers.Count; i++)
             {
                 AnswerOption answer = answers[i];
-                answer.IsCorrect = true;
 
-                // If current answer is correct
-                if (answer.IsCorrect == true)
+                // If the feedback is empty
+                if (string.IsNullOrWhiteSpace(answer.Feedback))
                 {
-                    // If the feedback is empty
-                    if (string.IsNullOrWhiteSpace(answer.Feedback))
-                    {
-                        question += $"%{answer.PointsPercent}%{answer.Text}";
-                    }
-
-                    else
-                    {
-                        question += $"%{answer.PointsPercent}%{answer.Text}#{answer.Feedback}";
-                    }
+                    question += $"%{answer.PointsPercent}%{answer.Text}";
                 }
 
                 else
                 {
-                    // If the feedback is empty
-                    if (string.IsNullOrWhiteSpace(answer.Feedback))
-                    {
-                        question += $"{answer.Text}";
-                    }
-
-                    else
-                    {
-                        question += $"{answer.Text}#{answer.Feedback}";
-                    }
+                    question += $"%{answer.PointsPercent}%{answer.Text}#{answer.Feedback}";
                 }
 
                 // Add a wavy line for the next answer option if not the last answer
@@ -148,7 +111,7 @@ namespace SyntaxGenerator
         /// <param name="isVertical">Are the answer options presented vertically (true), horizontally (false) or in a dropbox (null)</param>
         /// <param name="maxPoints">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        public static string CreateMultiChoice(List<AnswerOption> answers, bool isRandomized, bool? isVertical, int maxPoints = 1)
+        public static string CreateMultiChoice(List<AnswerOption> answers, bool isRandomized, bool? isVertical, int maxPoints)
         {
             string question = "{";
             question += $"{maxPoints}:";
@@ -179,33 +142,15 @@ namespace SyntaxGenerator
             {
                 AnswerOption answer = answers[i];
 
-                // If current answer is correct
-                if (answer.IsCorrect == true)
+                // If the feedback is empty
+                if (string.IsNullOrWhiteSpace(answer.Feedback))
                 {
-                    // If the feedback is empty
-                    if (string.IsNullOrWhiteSpace(answer.Feedback))
-                    {
-                        question += $"%{answer.PointsPercent}%{answer.Text}";
-                    }
-
-                    else
-                    {
-                        question += $"%{answer.PointsPercent}%{answer.Text}#{answer.Feedback}";
-                    }
+                    question += $"%{answer.PointsPercent}%{answer.Text}";
                 }
-                
+
                 else
                 {
-                    // If the feedback is empty
-                    if (string.IsNullOrWhiteSpace(answer.Feedback))
-                    {
-                        question += $"{answer.Text}";
-                    }
-
-                    else
-                    {
-                        question += $"{answer.Text}#{answer.Feedback}";
-                    }
+                    question += $"%{answer.PointsPercent}%{answer.Text}#{answer.Feedback}";
                 }
 
                 // Add a wavy line for the next answer option if not the last answer
@@ -226,7 +171,7 @@ namespace SyntaxGenerator
         /// <param name="isVertical">Are the answer options presented vertical (true) or horizontal (false)</param>
         /// <param name="maxPoints">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        public static string CreateMultiResponse(List<AnswerOption> answers, bool isRandomized, bool isVertical, int maxPoints = 1)
+        public static string CreateMultiResponse(List<AnswerOption> answers, bool isRandomized, bool isVertical, int maxPoints)
         {
             string question = "{";
 
@@ -265,33 +210,15 @@ namespace SyntaxGenerator
             {
                 AnswerOption answer = answers[i];
 
-                // If current answer is correct
-                if (answer.IsCorrect == true)
+                // If the feedback is empty
+                if (string.IsNullOrWhiteSpace(answer.Feedback))
                 {
-                    // If the feedback is empty
-                    if (string.IsNullOrWhiteSpace(answer.Feedback))
-                    {
-                        question += $"%{answer.PointsPercent}%{answer.Text}";
-                    }
-
-                    else
-                    {
-                        question += $"%{answer.PointsPercent}%{answer.Text}#{answer.Feedback}";
-                    }
+                    question += $"%{answer.PointsPercent}%{answer.Text}";
                 }
 
                 else
                 {
-                    // If the feedback is empty
-                    if (string.IsNullOrWhiteSpace(answer.Feedback))
-                    {
-                        question += $"{answer.Text}";
-                    }
-
-                    else
-                    {
-                        question += $"{answer.Text}#{answer.Feedback}";
-                    }
+                    question += $"%{answer.PointsPercent}%{answer.Text}#{answer.Feedback}";
                 }
 
                 // Add a wavy line for the next answer option if not the last answer
