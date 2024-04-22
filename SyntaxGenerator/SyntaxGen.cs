@@ -74,7 +74,7 @@ namespace SyntaxGenerator
         /// <param name="answers">A list of the correct answers</param>
         /// <param name="maxPoints">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        public static string CreateShortAnswer(List<AnswerOption> answers, string? feedback, bool isCaseSensitive, int maxPoints = 1)
+        public static string CreateShortAnswer(List<AnswerOption> answers, string? feedback, bool isCaseSensitive, int maxPoints)
         {
             string question = "{";
             question += $"{maxPoints}:";
@@ -94,6 +94,7 @@ namespace SyntaxGenerator
             for (int i = 0; i < answers.Count; i++)
             {
                 AnswerOption answer = answers[i];
+                answer.IsCorrect = true;
 
                 // If current answer is correct
                 if (answer.IsCorrect == true)
