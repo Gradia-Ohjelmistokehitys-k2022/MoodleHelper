@@ -19,13 +19,13 @@
 
     <div class="col-md-2">
         <div class="form-group">
-            <label for="maxPoints">Maksimipistemäärä:</label>
+            <Tooltip Title="Oikeasta vastauksesta annettavien pisteiden määrä" for="maxPoints">Maksimipistemäärä:</Tooltip>
             <input type="number" class="form-control w-100" @bind="@maxPoints">
         </div>
     </div>
 
     <div class="col-md-2">
-        <label for="caseSensitive">Merkkiriippuvainen?</label>
+        <Tooltip Title="Vaikuttaako vastauksen hyväksymiseen isot kirjaimet, vai ei" for="caseSensitive">Merkkiriippuvainen?</Tooltip>
         <Switch id="caseSensitive" @bind-Value="caseSensitiveCheck" />
     </div>
 </div>
