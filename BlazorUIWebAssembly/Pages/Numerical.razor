@@ -7,54 +7,62 @@
 
 
 <h3>Numeerinen</h3>
-@* <div>
-	<label for="pointAmount">Syötä pistemäärä</label>
-	<input id="pointAmount" name="pointAmount" type="number" @bind="pointAmount" style="width: 300px;" />
+
+<div class="row mb-4">
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="itemCount">Vastausvaihtoehtojen määrä:</label>
+            <input type="number" class="form-control w-100" value="@itemCount" @oninput="onchange_n" max="10" min="0">
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="maxPoints">Maksimipistemäärä:</label>
+            <input type="number" class="form-control w-100" @bind="@maxPoints">
+        </div>
+    </div>
 </div>
 
-<div>
-    <label for="shortAnswer">Syötä oikea vastaus.</label>
-    <input id="shortAnswer" name="shortAnswer" @bind="answerString" style="width: 300px;" />
-</div>
-
-<div>
-    <label for="marginAmount">Syötä prosentti.</label>
-    <input id="marginAmount" name="marginAmount" @bind="marginAmount" style="width: 300px;" />
-</div>
-
-<div>
-    <p>Syötä palaute</p>
-    <textarea id="feedbackString" name="feedbackString" @bind="feedbackString" style="width: 300px;height: 150px;" />
-</div> *@
-
-Vastausvaihtoehtojen määrä:
-<input type="number" value="@itemCount" @oninput="onchange_n" max="10" min="1">
-<br>
-
-@*TÄHÄN ON OLTAVA HELPOMPI TAPA (TAVALLINEN SPACEBAR EI TOIMINUT???)*@
-<p>Oikein&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vastaus&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Marginaali&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pisteet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pisteprosentti&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Palaute</p>
 @for (int i = 0; i < itemCount; i++)
 {
     var currentItem = questionOptions[i];
-    <input type="checkbox" @bind="@currentItem.IsChecked" />
-    <input type="number" @bind="@currentItem.Answer" />
-    <input type="number" @bind="@currentItem.Margin" />
-    <input type="number" @bind="@currentItem.MaxPoints" />
-    <input type="number" @bind="@currentItem.PointPercent" />
-    <input type="text" @bind="@currentItem.Feedback" />
-    <br />
 
-    <br />
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="@($"questionText-{i}")">Vastaus:</label>
+                <input type="number" class="form-control w-100" id="@($"questionText-{i}")" @bind="@currentItem.Answer" step="any"/>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="@($"margin-{i}")">Pistemarginaali:</label>
+                <input type="number" class="form-control w-100" id="@($"margin-{i}")" @bind="@marginAmount" step="any" />
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="@($"points-{i}")">Prosenttiosuus maksimipisteistä:</label>
+                <input type="number" class="form-control w-100" id="@($"points-{i}")" @bind="@currentItem.PointsPercent" />
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="@($"feedback-{i}")">Palaute:</label>
+                <textarea class="form-control w-100" id="@($"feedback-{i}")" @bind="@currentItem.Feedback" placeholder="Syötä annettava palaute, mikäli oppilas vastaa tämän vastauksen"></textarea>
+            </div>
+        </div>
+    </div>
 }
 
 @code
 {
     private int itemCount = 0, total = 0;
     bool test = false;
-    // private List<int> testlist = new List<int>();
-    // private List<bool> MyList = new List<bool>();
-    // private List<string> MyList2 = new List<string>();
-    // private List<string> MyList3 = new List<string>();
 
     private List<QuestionOption> questionOptions = new List<QuestionOption>();
 
@@ -65,9 +73,8 @@ Vastausvaihtoehtojen määrä:
             itemCount = items;
             while (questionOptions.Count < itemCount)
             {
-                questionOptions.Add(new QuestionOption { IsChecked = false, Answer = 0, Margin = 0, MaxPoints = 1, PointPercent = 0, Feedback = "Palaute" });
+                questionOptions.Add(new QuestionOption { Answer = 0, PointsPercent = 100, Feedback = "" });
         }
-
 
             while (questionOptions.Count > itemCount)
             {
@@ -78,13 +85,23 @@ Vastausvaihtoehtojen määrä:
     }
 }
 
-<Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateNumerical">Luo syntaksi</Button>
+<div class="row mb-4">
+    <div class="col-md-12">
+        <Button Color="ButtonColor.Primary" Outline="true" @onclick="GenerateNumerical">Luo syntaksi</Button>
+    </div>
 
-<h3>Tulos: @numericalResult</h3>
-@if (!string.IsNullOrWhiteSpace(numericalResult))
-{
-    <Button Color="ButtonColor.Secondary" Outline="true" @onclick="CopyToClipboard">Kopioi</Button>
-}
+    @if (!string.IsNullOrWhiteSpace(numericalResult))
+    {
+        <div class="col-md-12">
+            <h2>Tulos:</h2>
+            <pre>@numericalResult</pre>
+        </div>
+
+        <div class="col-md-12">
+            <Button Color="ButtonColor.Secondary" Outline="true" @onclick="CopyToClipboard">Kopioi</Button>
+        </div>
+    }
+</div>
 
 @code {
     bool agree1; 
@@ -92,11 +109,12 @@ Vastausvaihtoehtojen määrä:
     private bool disabled = true;
     private string numericalResult = "";
     private static string answerString { get; set; }
-    private static string marginAmount { get; set; }
+    private decimal marginAmount = 0;
     private static string pointAmount { get; set; }
     private static decimal decimalAnswer;
     string previous = "";
     string feedbackString = "";
+    int maxPoints = 1;
     List<int> ListOfPoints = new List<int>();
     List<AnswerOption> AnswersList = new List<AnswerOption>();
 
@@ -107,31 +125,10 @@ Vastausvaihtoehtojen määrä:
         ListOfPoints.Clear();
         foreach (var option in questionOptions)
         {
-            AnswersList.Add(new AnswerOption(option.Answer.ToString(), option.IsChecked, option.Feedback, option.PointPercent));
-            if (option.IsChecked == true)
-            {
-                ListOfPoints.Add(option.MaxPoints);
-            }
-            else
-            {
-                ListOfPoints.Add(0);
-            }
+            AnswersList.Add(new AnswerOption(option.Answer.ToString(), true, option.Feedback, option.PointsPercent));
         }
-        numericalResult = CreateNumerical(AnswersList, feedbackString, Convert.ToDecimal(marginAmount), Convert.ToInt32(ListOfPoints.Max()));
+        numericalResult = CreateNumerical(AnswersList, feedbackString, Convert.ToDecimal(marginAmount), maxPoints);
     }
-
-
-    // List<AnswerOption> AnswersList = new List<AnswerOption>();
-
-
-    // private void GenerateNumerical()
-    // {
-    //     AnswersList.Add(new AnswerOption(answerString, true, pointAmount));
-
-    //     //uses the generator from SyntaxGen.cs, which is located in the "SyntaxGenerator" project
-    //     numericalResult = CreateNumerical(AnswersList, feedbackString, Convert.ToDecimal(marginAmount), Convert.ToInt32(pointAmount));
-
-    // }
 
     async Task CopyToClipboard()
     {
@@ -147,11 +144,8 @@ Vastausvaihtoehtojen määrä:
     }
     public class QuestionOption
     {
-        public bool IsChecked { get; set; }
-        public int Answer { get; set; }
-        public int Margin { get; set; }
-        public int MaxPoints { get; set; }
-        public int PointPercent { get; set; }
+        public decimal Answer { get; set; }
+        public int PointsPercent { get; set; }
         public string Feedback { get; set; }
     }
 

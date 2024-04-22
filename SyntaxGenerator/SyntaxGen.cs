@@ -13,7 +13,7 @@ namespace SyntaxGenerator
         /// <param name="margin">The margin of error</param>
         /// <param name="maxPoints">The amount of points given</param>
         /// <returns>A string with the syntax</returns>
-        public static string CreateNumerical(List<AnswerOption> answers, string feedback, decimal margin = 0, int maxPoints = 1)
+        public static string CreateNumerical(List<AnswerOption> answers, string feedback, decimal margin, int maxPoints)
         {
             string question = "{";
             question += $"{maxPoints}:NUMERICAL:";

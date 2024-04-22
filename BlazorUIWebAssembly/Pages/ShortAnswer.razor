@@ -9,7 +9,7 @@
 
 <h3>Avoin vastaus</h3>
 
-<div class="row mb-4 align-self-center">
+<div class="row mb-4">
     <div class="col-md-2">
         <div class="form-group">
             <label for="itemCount">Vastausvaihtoehtojen määrä:</label>
@@ -37,20 +37,22 @@
     <div class="row mb-3">
         <div class="col-md-4">
             <div class="form-group">
-                <label for="questionText">Vastaus:</label>
-                <input type="text" class="form-control w-100" id="questionText" @bind="@currentItem.Answer" placeholder="Syötä vastausvaihtoehto" />
+                <label for="@($"questionText-{i}")">Vastaus:</label>
+                <input type="text" class="form-control w-100" id="@($"questionText-{i}")" @bind="@currentItem.Answer" placeholder="Vastausvaihtoehto" />
             </div>
         </div>
+
         <div class="col-md-4">
             <div class="form-group">
-                <label for="points">Prosenttiosuus maksimipisteistä:</label>
-                <input type="number" class="form-control w-100" id="points" @bind="@currentItem.PointsPercent" />
+                <label for="@($"points-{i}")">Prosenttiosuus maksimipisteistä:</label>
+                <input type="number" class="form-control w-100" id="@($"points-{i}")" @bind="@currentItem.PointsPercent" />
             </div>
         </div>
+
         <div class="col-md-4">
             <div class="form-group">
-                <label for="feedback">Palaute:</label>
-                <textarea class="form-control w-100" id="feedback" @bind="@currentItem.Feedback" placeholder="Syötä annettava palaute, mikäli oppilas vastaa tämän vastauksen"></textarea>
+                <label for="@($"feedback-{i}")">Palaute:</label>
+                <textarea class="form-control w-100" id="@($"feedback-{i}")" @bind="@currentItem.Feedback" placeholder="Annettava palaute, mikäli oppilas vastaa tämän vastauksen"></textarea>
             </div>
         </div>
     </div>
