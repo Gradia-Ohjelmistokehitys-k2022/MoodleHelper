@@ -68,7 +68,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <Tooltip Title="Annettava palaute, mikäli oppilas vastaa tämän vastauksen" for="@($"feedback-{i}")">Palaute:</Tooltip>
-                <textarea class="form-control w-100" id="@($"feedback-{i}")" @bind="@currentItem.Feedback"></textarea>
+                <textarea class="form-control w-100" id="@($"feedback-{i}")" @bind="@currentItem.Feedback" placeholder="Tehtäväkohtainen palaute"></textarea>
             </div>
         </div>
     </div>
