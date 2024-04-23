@@ -27,7 +27,7 @@
 
     <div class="col-md-2">
         <div class="form-group">
-            <label for="shuffleAnswers">Sekoita vastaukset?</label>
+            <Tooltip Title="Seikoittaako Moodle vastausvaihtoehtojen järjestyksen" for="shuffleAnswers">Sekoita vastaukset?</Tooltip>
             <Switch id="shuffleAnswers" @bind-Value="shuffleAnswers" />
         </div>
     </div>
@@ -151,7 +151,7 @@
     bool verticalTrue = true;
     bool horizontalTrue = false;
     bool boxedTrue = false;
-    private static bool? finalValue = null;
+    private static bool? finalValue = true;
     string finalString = "";
     private bool enabled = false;
     private bool disabled = true;
@@ -164,7 +164,6 @@
 
     private int maxPoints = 1;
 
-    List<int> ListOfPoints = new List<int>();
     List<AnswerOption> AnswersList = new List<AnswerOption>();
     int maxPointsSum=0;
 
@@ -222,7 +221,6 @@
 
     private void GenerateMultiChoice()
     {
-        ListOfPoints.Clear();
         AnswersList.Clear();
         foreach (var option in questionOptions)
         {
@@ -234,14 +232,11 @@
         {
             MultiChoiceResult = CreateMultiChoice(AnswersList, shuffleAnswers, finalValue, maxPoints);
         }
-        else
-        {
-            if (show == true)
-            {
-                finalValueNotNull = finalValue.HasValue ? finalValue.Value : false;
-                MultiChoiceResult = CreateMultiResponse(AnswersList, shuffleAnswers, finalValueNotNull, maxPoints);
-            }
-        }
+        else if (show == true)
+		{
+			finalValueNotNull = finalValue.HasValue ? finalValue.Value : false;
+			MultiChoiceResult = CreateMultiResponse(AnswersList, shuffleAnswers, finalValueNotNull, maxPoints);
+		}
     }
 
     public class QuestionOption

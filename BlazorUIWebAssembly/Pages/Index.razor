@@ -21,11 +21,10 @@
         <div class="row">
             <div class="col-md-4">
                 <h2><a href="/ShortAnswer/">AVOIN VASTAUS</a></h2>
-
                 <p>
-                    Avoimessa vastauksessa vastataan suoraan tekstillä. Mahdollista myös merkata vastaukset merkkiriippuvaisiksi. Kaikkia mahdollisia vastausvaihtoehtoja ei tarvitse luetella. Useampia vastausvaihtoehtoja voi kuitenkin lisätä, jos haluaa antaa palautetta tietyistä vääristä vastauksista.
-                    Esimerkki avoimen kysymyksen ulkonäöstä: 
+                    Avoimessa vastauksessa vastataan suoraan tekstillä. Mahdollista myös merkata vastaukset merkkiriippuvaisiksi. Kaikkia mahdollisia vastausvaihtoehtoja ei tarvitse luetella. Useampia vastausvaihtoehtoja voi kuitenkin lisätä, jos haluaa antaa palautetta tietyistä vääristä vastauksista. 
                 </p>
+                <p>Esimerkki avoimen kysymyksen ulkonäöstä:</p>
                 <img src="@saSource" />
             </div>
 
@@ -33,8 +32,8 @@
 				<h2><a href="/Numerical/">NUMEERINEN VASTAUS</a></h2>
                 <p>
                     Numeerinen vastaus on vastaus, johon vastataan numeroilla. Kaikkia mahdollisia vastausvaihtoehtoja ei tarvitse luetella. Useampia vastausvaihtoehtoja voi kuitenkin lisätä, jos haluaa antaa palautetta tietyistä vääristä vastauksista.
-                    Esimerkki numeerisen kysymyksen ulkonäöstä:
                 </p>
+                <p>Esimerkki numeerisen kysymyksen ulkonäöstä:</p>
                 <img src="@numSource" />
             </div>
 
@@ -42,8 +41,8 @@
 				<h2><a href="/MultiChoice">MONIVALINTA</a></h2>
 				<p>
                     Monivalinnassa valitaan yksi tai useampi vastaus vastauslistasta.
-                    Esimerkki monivalinnan esitystyyleistä:
                 </p>
+                <p>Esimerkki monivalinnan esitystyyleistä:</p>
                 <div>
                     <label for="mcr">Rivissä:</label>
                     <img src="@mcrSource" id="mcr" />
@@ -51,7 +50,7 @@
 
                 <div>
                     <label for="mcl">Päällekkäin:</label>
-					<img src="@mclSource" for="mcl" />
+					<img src="@mcvSource" for="mcl" />
                 </div>
 
                 <div>
@@ -68,6 +67,6 @@
     private string saSource = $"images/examples/shortanswer.png";
     private string numSource = $"images/examples/numerical.png";
     private string mcrSource = $"images/examples/multichoice_row.png";
-    private string mclSource = $"images/examples/multichoice_line.png";
+    private string mcvSource = $"images/examples/multichoice_line.png";
     private string mcdSource = $"images/examples/multichoice_dropdown.png";
 }
