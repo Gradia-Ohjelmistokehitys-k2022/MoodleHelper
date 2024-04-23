@@ -132,7 +132,7 @@
 
         <div class="col-md-12">
             <div class="form-group">
-                <Button Color="ButtonColor.Secondary" Outline="true" @onclick="CopyToClipboard">Kopioi</Button>
+                <Button Color="ButtonColor.Secondary" Outline="true" @onclick="CopyToClipboard"><Icon Name="IconName.Clipboard" /> Kopioi </Button>
             </div>
         </div>
     }
@@ -140,11 +140,11 @@
 
 @code {
     List<ToastMessage> copyNotif = new();
-    private void ShowMessage(ToastType toastType) => copyNotif.Add(CreateToastMessage(toastType));
-    private ToastMessage CreateToastMessage(ToastType toastType) => new ToastMessage
+    private void ShowMessage(ToastType toastType, string message) => copyNotif.Add(CreateToastMessage(toastType, message));
+    private ToastMessage CreateToastMessage(ToastType toastType, string message) => new ToastMessage
         {
             Type = toastType,
-            Message = $"Kopiotu leikepöydälle!",
+            Message = message,
         };
 
     bool shuffleAnswers;
@@ -258,11 +258,11 @@
         try
         {
             await ClipboardService.WriteTextAsync(MultiChoiceResult);
-            ShowMessage(ToastType.Success);
+            ShowMessage(ToastType.Success, $"Kopiotu leikepöydälle!");
         }
         catch
         {
-            Console.WriteLine("Cannot write text to clipboard");
+            ShowMessage(ToastType.Danger, $"Kopiointi ei onnistunut");
         }
     }
 }
