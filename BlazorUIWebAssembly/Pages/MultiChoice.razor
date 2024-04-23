@@ -26,24 +26,31 @@
     </div>
 
     <div class="col-md-2">
-        <label for="shuffleAnswers">Sekoita vastaukset?</label>
-        <Switch id="shuffleAnswers" @bind-Value="shuffleAnswers" />
+        <div class="form-group">
+            <label for="shuffleAnswers">Sekoita vastaukset?</label>
+            <Switch id="shuffleAnswers" @bind-Value="shuffleAnswers" />
+        </div>
     </div>
 
     <div class="col-md-2">
-        <label>Yksi</label> <label><Switch @bind-Value="show" @onclick="fixBoxed" Label="Useampi oikein"></Switch></label>
+        <div class="form-group">
+            <Tooltip Title="Voiko oppilas valita useamman vastausvaihtoehdon" for="multichoice">Useampi vastaus?</Tooltip>
+            <Switch id="multichoice" @bind-Value="show" @onclick="fixBoxed"></Switch>
+        </div>
     </div>
 
     <div class="col-md-2">
-        <Dropdown>
-            <DropdownToggleButton Color="ButtonColor.Secondary">@answerLabel</DropdownToggleButton>
-            <DropdownMenu>
-                <DropdownHeader>Vastauksen esitystyyli</DropdownHeader>
-                <DropdownItem @onclick="DisableOthersThanVertical" Type="ButtonType.Link">Päällekkäin</DropdownItem>
-                <DropdownItem @onclick="DisableOthersThanHorizontal" Type="ButtonType.Link">Rivissä</DropdownItem>
-                <DropdownItem @onclick="DisableOthersThanBoxed" Disabled="@show" Type="ButtonType.Link">Pudotusvalikossa</DropdownItem>
-            </DropdownMenu>
-        </Dropdown>
+        <div class="form-group">
+            <Dropdown>
+                <DropdownToggleButton Color="ButtonColor.Secondary">@answerLabel</DropdownToggleButton>
+                <DropdownMenu>
+                    <DropdownHeader>Vastauksen esitystyyli</DropdownHeader>
+                    <DropdownItem @onclick="DisableOthersThanVertical" Type="ButtonType.Link">Päällekkäin</DropdownItem>
+                    <DropdownItem @onclick="DisableOthersThanHorizontal" Type="ButtonType.Link">Rivissä</DropdownItem>
+                    <DropdownItem @onclick="DisableOthersThanBoxed" Disabled="@show" Type="ButtonType.Link">Pudotusvalikossa</DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
+        </div>
     </div>
 
 </div>
