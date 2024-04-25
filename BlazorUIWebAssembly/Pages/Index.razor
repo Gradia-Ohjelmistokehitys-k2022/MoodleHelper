@@ -20,7 +20,7 @@
     <CardBody>
         <div class="row">
             <div class="col-md-4">
-                <h2><a href="/ShortAnswer/">AVOIN VASTAUS</a></h2>
+                <h2><a href="@ClickToPage("ShortAnswer/")">AVOIN VASTAUS</a></h2>
                 <p>
                     Avoimessa vastauksessa vastataan suoraan tekstillä. Mahdollista myös merkata vastaukset merkkiriippuvaisiksi. Kaikkia mahdollisia vastausvaihtoehtoja ei tarvitse luetella. Useampia vastausvaihtoehtoja voi kuitenkin lisätä, jos haluaa antaa palautetta tietyistä vääristä vastauksista. 
                 </p>
@@ -29,7 +29,7 @@
             </div>
 
             <div class="col-md-4">
-				<h2><a href="/Numerical/">NUMEERINEN VASTAUS</a></h2>
+                <h2><a href="@ClickToPage("Numerical/")">NUMEERINEN VASTAUS</a></h2>
                 <p>
                     Numeerinen vastaus on vastaus, johon vastataan numeroilla. Kaikkia mahdollisia vastausvaihtoehtoja ei tarvitse luetella. Useampia vastausvaihtoehtoja voi kuitenkin lisätä, jos haluaa antaa palautetta tietyistä vääristä vastauksista.
                 </p>
@@ -38,22 +38,24 @@
             </div>
 
             <div class="col-md-4">
-				<h2><a href="/MultiChoice">MONIVALINTA</a></h2>
+
+                <h2><a href="@ClickToPage("MultiChoice/")">MONIVALINTA</a></h2>
 				<p>
                     Monivalinnassa valitaan yksi tai useampi vastaus vastauslistasta.
                 </p>
                 <p>Esimerkki monivalinnan esitystyyleistä:</p>
-                <div>
+
+                <div class="col-md-4">
                     <label for="mcr">Rivissä:</label>
                     <img src="@mcrSource" id="mcr" />
                 </div>
-
-                <div>
+                <br>
+                <div class="col-md-4">
                     <label for="mcl">Päällekkäin:</label>
 					<img src="@mcvSource" for="mcl" />
                 </div>
-
-                <div>
+                <br>
+                <div class="col-md-4">
                     <label for="mcd">Pudotusvalikossa:</label>
 					<img src="@mcdSource" id="mcd" />
                 </div>
@@ -64,9 +66,13 @@
 
 @code
 {
+    private string site = "/";
+    private string currentSite;
     private string saSource = $"images/examples/shortanswer.png";
     private string numSource = $"images/examples/numerical.png";
     private string mcrSource = $"images/examples/multichoice_row.png";
     private string mcvSource = $"images/examples/multichoice_line.png";
     private string mcdSource = $"images/examples/multichoice_dropdown.png";
+
+    private string ClickToPage(string page) => currentSite = site + page;
 }
