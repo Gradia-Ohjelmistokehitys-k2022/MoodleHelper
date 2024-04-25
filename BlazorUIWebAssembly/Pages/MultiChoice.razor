@@ -124,7 +124,7 @@
     {
         <div class="col-md-12">
             <div class="form-group">
-                <h2>Tulos:</h2>
+                <br>
                 <pre>@MultiChoiceResult</pre>
             </div>
         </div>
@@ -226,7 +226,11 @@
         AnswersList.Clear();
         foreach (var option in questionOptions)
         {
-            AnswersList.Add(new AnswerOption(option.Answer, option.Feedback, option.PointsPercent));
+            if (!string.IsNullOrWhiteSpace(option.Answer))
+            {
+                AnswersList.Add(new AnswerOption(option.Answer, option.Feedback, option.PointsPercent));
+            }
+            
         }
         
 

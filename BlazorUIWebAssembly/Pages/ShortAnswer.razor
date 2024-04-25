@@ -102,7 +102,7 @@
 {
     <div class="col-md-12">
         <div class="form-group">
-            <h2>Tulos:</h2>
+            <br>
             <pre>@shortResult</pre>
         </div>
     </div>
@@ -141,12 +141,11 @@
         AnswersList.Clear();
         foreach (var option in questionOptions)
         {
-            if (string.IsNullOrWhiteSpace(option.Answer))
+            if (!string.IsNullOrWhiteSpace(option.Answer))
             {
-
-                break;
+                AnswersList.Add(new AnswerOption(option.Answer, option.Feedback, option.PointsPercent));
             }
-            AnswersList.Add(new AnswerOption(option.Answer, option.Feedback, option.PointsPercent));
+            
         }
 
         //uses the generator from SyntaxGen.cs, which is located in the "SyntaxGenerator" project

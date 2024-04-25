@@ -75,7 +75,7 @@
             itemCount = items;
             while (questionOptions.Count < itemCount)
             {
-                questionOptions.Add(new QuestionOption { Answer = 0, PointsPercent = 100, Feedback = "" });
+                questionOptions.Add(new QuestionOption { Answer = null, PointsPercent = 100, Feedback = "" });
         }
 
             while (questionOptions.Count > itemCount)
@@ -98,7 +98,7 @@
     {
         <div class="col-md-12">
             <div class="form-group">
-                <h2>Tulos:</h2>
+                <br>
                 <pre>@numericalResult</pre>
             </div>
         </div>
@@ -143,7 +143,10 @@
         ListOfPoints.Clear();
         foreach (var option in questionOptions)
         {
-            AnswersList.Add(new AnswerOption(option.Answer.ToString(), option.Feedback, option.PointsPercent));
+            if (option.Answer != null)
+			{
+                AnswersList.Add(new AnswerOption(option.Answer.ToString(), option.Feedback, option.PointsPercent));
+			}
         }
         numericalResult = CreateNumerical(AnswersList, feedbackString, Convert.ToDecimal(marginAmount), maxPoints);
     }
@@ -163,7 +166,7 @@
     }
     public class QuestionOption
     {
-        public decimal Answer { get; set; }
+        public decimal? Answer { get; set; }
         public int PointsPercent { get; set; }
         public string Feedback { get; set; }
     }
