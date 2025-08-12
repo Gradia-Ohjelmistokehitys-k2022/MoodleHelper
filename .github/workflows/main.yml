@@ -18,26 +18,14 @@ jobs:
       with:
         dotnet-version: '7.0'
 
-    - name: Update site reference (MainLayout)
-      run: sed -i 's|private string site = "/";|private string site = "/MoodleHelper/";|' ./BlazorUIWebAssembly/Shared/MainLayout.razor
-
-    - name: Update site reference (Index)
-      run: sed -i 's|private string site = "/";|private string site = "/MoodleHelper/";|' ./BlazorUIWebAssembly/Pages/Index.razor
-
-    - name: Build and Publish
-      run: |
-        dotnet build --configuration Release
-        dotnet publish --configuration Release -o ./publish
-      working-directory: ./BlazorUIWebAssembly
-
-    - name: Update base href
-      run: sed -i 's|<base href="/" />|<base href="/MoodleHelper/" />|' ./BlazorUIWebAssembly/publish/wwwroot/index.html
+    - name: Publish Blazor WebAssembly
+      run: dotnet publish BlazorUIWebAssembly/BlazorUIWebAssembly.csproj -c Release -o publish --nologo
 
     - name: Add .nojekyll file
-      run: touch BlazorUIWebAssembly/publish/wwwroot/.nojekyll
+      run: touch publish/wwwroot/.nojekyll
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./BlazorUIWebAssembly/publish/wwwroot
+        publish_dir: ./publish/wwwroot
