@@ -1,3 +1,4 @@
+
 name: Deploy to GitHub Pages
 
 on:
@@ -11,21 +12,37 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v2
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '7.0'
+        
+    - name: Update site reference
+      run: |
+        sed -i 's|private string site = "/";|private string site = "/MoodleHelper/";|' ./BlazorUIWebAssembly/Shared/MainLayout.razor
 
-    - name: Publish Blazor WebAssembly
-      run: dotnet publish BlazorUIWebAssembly/BlazorUIWebAssembly.csproj -c Release -o publish --nologo
+    - name: Update site reference
+      run: |
+        sed -i 's|private string site = "/";|private string site = "/MoodleHelper/";|' ./BlazorUIWebAssembly/Pages/Index.razor
+    
+    - name: Build and Publish
+      run: |
+        dotnet build --configuration Release
+        dotnet publish --configuration Release -o ./publish
+      working-directory: ./BlazorUIWebAssembly
 
-    - name: Add .nojekyll file
-      run: touch publish/wwwroot/.nojekyll
+    - name: Update base href
+      run: |
+        sed -i 's|<base href="/" />|<base href="/MoodleHelper/" />|' ./BlazorUIWebAssembly/publish/wwwroot/index.html
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./publish/wwwroot
+        publish_dir: ./BlazorUIWebAssembly/publish/wwwroot
+
+    # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+    - name: Add .nojekyll file
+      run: touch BlazorUIWebAssembly/wwwroot/.nojekyll
