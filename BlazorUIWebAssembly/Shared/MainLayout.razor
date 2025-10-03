@@ -41,9 +41,10 @@
         navItems = new List<NavItem>
         {
             new NavItem { Id = "1", Href = site, IconName = IconName.HouseDoor, Text = "Etusivu", Match=NavLinkMatch.All},
-            new NavItem { Id = "2", Href = site + "ShortAnswer", IconName = IconName.JournalText, Text = "Avoin vastaus"},
-            new NavItem { Id = "3", Href = site + "Numerical", IconName = IconName.Calculator, Text = "Numeerinen"},
-            new NavItem { Id = "3", Href = site + "MultiChoice", IconName = IconName.ListUl, Text = "Monivalinta"},
+            new NavItem { Id = "2", Href = "/MoodleHelper/ShortAnswer", IconName = IconName.JournalText, Text = "Avoin vastaus"},
+			new NavItem { Id = "3", Href = "/MoodleHelper/Numerical", IconName = IconName.Calculator, Text = "Numeerinen"},
+			new NavItem { Id = "4", Href = "/MoodleHelper/MultiChoice", IconName = IconName.ListUl, Text = "Monivalinta"},
+
         };
 
         return navItems;
